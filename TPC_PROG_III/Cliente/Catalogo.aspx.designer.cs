@@ -13,5 +13,32 @@ namespace TPC_PROG_III
 
     public partial class Catalogo
     {
+
+        /// <summary>
+        /// btnDetalle1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnDetalle1;
+
+        /// <summary>
+        /// btnDetalle2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnDetalle2;
+
+        /// <summary>
+        /// btnDetalle3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnDetalle3;
     }
 }

@@ -2,5 +2,29 @@
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <h2>Catálogo de Libros</h2>
-    <!-- Filtros y Listado -->
+    <div class="catalogo-grid">
+        <div class="carta-libro">
+            <div class="imagen-placeholder"></div>
+            <h4>Título del Libro</h4>
+            <p>Autor</p>
+            <p><strong>Precio</strong></p>
+            <asp:Button ID="btnDetalle1" runat="server" Text="Ver Detalle" CssClass="btn-ver" />
+        </div>
+
+        <div class="carta-libro">
+            <div class="imagen-placeholder"></div>
+            <h4>Título del Libro</h4>
+            <p>Autor</p>
+            <p><strong>Precio</strong></p>
+            <asp:Button ID="btnDetalle2" runat="server" Text="Ver Detalle" CssClass="btn-ver" />
+        </div>
+
+        <div class="carta-libro">
+            <div class="imagen-placeholder"></div>
+            <h4>Título del Libro</h4>
+            <p>Autor</p>
+            <p><strong>Precio</strong></p>
+            <asp:Button ID="btnDetalle3" runat="server" Text="Ver Detalle" CssClass="btn-ver" />
+        </div>
+    </div>
 </asp:Content>
