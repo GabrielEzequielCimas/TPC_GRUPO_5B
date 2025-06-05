@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace TPC_PROG_III
 {
-    public partial class About : Page
+    public partial class DetalleLibro : Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
