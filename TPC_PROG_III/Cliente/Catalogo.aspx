@@ -1,30 +1,42 @@
 ﻿<%@ Page Title="Catalogo" Language="C#" MasterPageFile="~/Compartido/Site.Master" AutoEventWireup="true" CodeBehind="Catalogo.aspx.cs" Inherits="TPC_PROG_III.Catalogo" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-    <h2>Catálogo de Libros</h2>
-    <div class="catalogo-grid">
-        <div class="carta-libro">
-            <div class="imagen-placeholder"></div>
-            <h4>Título del Libro</h4>
-            <p>Autor</p>
-            <p><strong>Precio</strong></p>
-            <asp:Button ID="btnDetalle1" runat="server" Text="Ver Detalle" CssClass="btn-ver" />
-        </div>
+    <h2 class="text-center my-4">Elegí tu premio</h2>
+    <div class="row justify-content-center">
+        <asp:Repeater ID="rptArticulos" runat="server" OnItemDataBound="rptArticulos_ItemDataBound" OnItemCommand="rptArticulos_ItemCommand">
+            <ItemTemplate>
+                <div class="col-md-4 d-flex justify-content-center mb-4">
+                    <div class="card" style="width: 18rem;">
+                        <!-- Carrusel para mostrar los premios -->
+                        <div id="carousel_<%# Eval("Id") %>" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <asp:Repeater ID="rptImagenes" runat="server">
+                                    <ItemTemplate>
+                                        <div class="carousel-item <%# Container.ItemIndex == 0 ? "active" : "" %>">
+                                            <img src="<%# Eval("Url") %>" class="d-block w-100" alt="Imagen" />
+                                        </div>
+                                    </ItemTemplate>
+                                </asp:Repeater>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carousel_<%# Eval("Id") %>" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon"></span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carousel_<%# Eval("Id") %>" data-bs-slide="next">
+                                <span class="carousel-control-next-icon"></span>
+                            </button>
+                        </div>
 
-        <div class="carta-libro">
-            <div class="imagen-placeholder"></div>
-            <h4>Título del Libro</h4>
-            <p>Autor</p>
-            <p><strong>Precio</strong></p>
-            <asp:Button ID="btnDetalle2" runat="server" Text="Ver Detalle" CssClass="btn-ver" />
-        </div>
-
-        <div class="carta-libro">
-            <div class="imagen-placeholder"></div>
-            <h4>Título del Libro</h4>
-            <p>Autor</p>
-            <p><strong>Precio</strong></p>
-            <asp:Button ID="btnDetalle3" runat="server" Text="Ver Detalle" CssClass="btn-ver" />
-        </div>
+                        <!-- Cuerpo de la tarjeta -->
+                        <div class="card-body text-center">
+                            <h5 class="card-title"><%# Eval("Nombre") %></h5>
+                            <p class="card-text"><%# Eval("Descripcion") %></p>
+                            <p class="card-text"><%# Eval("Precio") %></p>
+                            <!--- Boton Seleccionar -->
+                            <asp:Button ID="btnSeleccionar" runat="server" Text="¡Quiero este!" CommandName="Seleccionar" CommandArgument='<%# Eval("Id") %>' CssClass="btn btn-primary" />
+                        </div>
+                    </div>
+                </div>
+            </ItemTemplate>
+        </asp:Repeater>
     </div>
 </asp:Content>

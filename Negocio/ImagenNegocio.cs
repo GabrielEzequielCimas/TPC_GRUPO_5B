@@ -15,8 +15,8 @@ namespace Negocio
             List<Imagen> lista = new List<Imagen>();
             ConexionDB imagenes = new ConexionDB();
             //imagenes.setearConsulta("select ImagenUrl from Imagenes where IdArticulo = " + idArticulo + ";");
-            imagenes.setearConsulta("select Id,ImagenUrl from Imagenes where IdArticulo = @IdArticulo;");
-            imagenes.setearParametro("IdArticulo", idArticulo);
+            imagenes.setearConsulta("select Id,UrlImagen from Imagenes where IdLibro = @IdLibro;");
+            imagenes.setearParametro("IdLibro", idArticulo);
             imagenes.ejecutarLectura();
             try
             {
@@ -25,7 +25,7 @@ namespace Negocio
                 {
                     Imagen aux = new Imagen();
                     aux.IdImagen = (int)imagenes.Lector["Id"];
-                    aux.url = (string)imagenes.Lector["ImagenUrl"];
+                    aux.url = (string)imagenes.Lector["UrlImagen"];
                     aux.IdLibro = idArticulo;
                     //aux.numeroImagen = contador += 1;
                     lista.Add(aux);

@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 
 namespace Negocio
 {
-    internal class LibroNegocio
+    public class LibroNegocio
     {
         public List<Libros> Listar()
         {
