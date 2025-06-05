@@ -56,7 +56,7 @@ textarea {
     cursor: pointer;
 }
 
-/* Iniciar Sesion */
+/* Iniciar Sesion y Registrarse */
 
 .contenedor-login {
     max-width: 400px;
@@ -103,4 +103,93 @@ textarea {
     padding: 30px;
     background-color: #f8f8f8;
     border-radius: 10px;
+}
+
+/* Carrito de compras */
+
+.contenedor-carrito {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 30px;
+    border-radius: 10px;
+    max-width: 800px;
+    margin: auto;
+}
+
+.item-carrito {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #fafafa;
+}
+
+.carrito-imagen {
+    width: 100px;
+    height: 140px;
+    background-color: #ddd;
+    border-radius: 5px;
+}
+
+.carrito-info {
+    flex: 1;
+}
+
+.titulo-libro {
+    margin: 0;
+    font-size: 18px;
+}
+
+.editorial {
+    color: #777;
+    margin: 5px 0;
+}
+
+.precio {
+    font-weight: bold;
+    color: black;
+}
+
+.carrito-controles {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.input-cantidad {
+    width: 60px;
+    padding: 6px;
+    text-align: center;
+    border-radius: 5px;
+    border: 1px solid #aaa;
+}
+
+.btn-eliminar {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.carrito-total {
+    text-align: right;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+.btn-finalizar {
+    margin-top: 10px;
+    background-color: blue;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
 }
