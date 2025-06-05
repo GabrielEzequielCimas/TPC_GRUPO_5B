@@ -20,6 +20,8 @@ textarea {
     }
 }
 
+/* Catalogo */
+
 .catalogo-grid {
     display: flex;
     flex-wrap: wrap;
@@ -52,4 +54,44 @@ textarea {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+}
+
+/* Iniciar Sesion */
+
+.contenedor-login {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+}
+
+.formulario {
+    margin-bottom: 15px;
+}
+
+.ingresar-info {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.btn-login {
+    width: 100%;
+    padding: 10px;
+    background-color: blue;
+    color: white;
+    border: none;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.registro-link {
+    text-align: center;
+    margin-top: 15px;
 }
