@@ -8,8 +8,8 @@ namespace Dominio
 {
     internal class Carrito
     {
-        public int IdProducto { get; set; }
+        public List<Libro> libros;
         public int Cantidad { get; set; }
-        public float Precio { get; set; }
+        public float Subtotal { get; set; }
     }
 }

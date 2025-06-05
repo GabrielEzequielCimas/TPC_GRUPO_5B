@@ -11,9 +11,9 @@ namespace Negocio
 {
     public class LibroNegocio
     {
-        public List<Libros> Listar()
+        public List<Libro> Listar()
         {
-            List<Libros> lista = new List<Libros>();
+            List<Libro> lista = new List<Libro>();
             ConexionDB datos = new ConexionDB();
             try
             {
@@ -21,7 +21,7 @@ namespace Negocio
                 datos.ejecutarLectura();
                 while (datos.Lector.Read())
                 {
-                    Libros aux = new Libros();
+                    Libro aux = new Libro();
                     aux.Id = (int)datos.Lector["Id"];
                     aux.Codigo = (string)datos.Lector["Codigo"];
                     aux.Nombre = (string)datos.Lector["Nombre"];

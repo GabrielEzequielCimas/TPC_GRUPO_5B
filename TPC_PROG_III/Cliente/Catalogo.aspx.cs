@@ -22,7 +22,7 @@ namespace TPC_PROG_III
         }
         protected void rptArticulos_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            Libros libro = (Libros)e.Item.DataItem;
+            Libro libro = (Libro)e.Item.DataItem;
             var rptImagenes = (Repeater)e.Item.FindControl("rptImagenes");// No puedo acceder directo al repeater pq esta dentro del repeater principal
             if (libro.Imagenes != null && libro.Imagenes.Count > 0)
             {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dominio
 {
-    internal class Clientes
+    internal class Cliente
     {
         int Id { get; set; }
         int Documento { get; set; }
@@ -15,6 +15,7 @@ namespace Dominio
         string Email { get; set; }
         string Direccion { get; set; }
         string Ciudad { get; set; }
+        //localidad clase, ciudad tambien ver si pueden tener mas
         string CP { get; set; }
     }
 }
