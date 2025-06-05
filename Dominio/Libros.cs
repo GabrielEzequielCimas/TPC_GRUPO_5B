@@ -1,22 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.Generic; 
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Dominio
 {
-    internal class Libros
+    public class Libros
     {
-        int Id { get; set; }
-        string Codigo { get; set; }
-        string Nombre { get; set; }
-        string Descripcion { get; set; }
-        Editorial editorial { get; set; }
-        Genero genero { get; set; }
-        Imagen imagen { get; set; }
-        int StockActual { get; set; }
-        int StockMinimo { get; set; }
-        float PorcentajeGanancia { get; set; }
+        public int Id { get; set; }
+        public string Codigo { get; set; }
+        public string Nombre { get; set; }
+        public string Descripcion { get; set; }
+        public Editorial Editorial { get; set; }
+        public Genero Genero { get; set; }
+        public List<Imagen> Imagenes { get; set; }
+        public int Stock { get; set; }
+        public decimal Precio { get; set; }
     }
 }
