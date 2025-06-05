@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace TPC_PROG_III
 {
-    public partial class Contact : Page
+    public partial class AdminLibros : Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {

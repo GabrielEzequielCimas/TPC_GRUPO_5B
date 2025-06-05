@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Error" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Error.aspx.cs" Inherits="TPC_PROG_III.Error" %>
+﻿<%@ Page Title="Error" Language="C#" MasterPageFile="~/Compartido/Site.Master" AutoEventWireup="true" CodeBehind="Error.aspx.cs" Inherits="TPC_PROG_III.Error" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <h2>Ocurrió un error</h2>
