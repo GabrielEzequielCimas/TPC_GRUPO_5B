@@ -11,14 +11,14 @@ namespace Dominio
         CLIENTE = 1,
         ADMIN = 2
     }
-    public class Usuarios
+    public class Usuario
     {
         public int Id { get; set; }
         public string User { get; set; }
         public string Password { get; set; }
         public TipoUsuario TipoUsuario { get; set; }
 
-        public Usuarios(string user,string pass,bool admin) 
+        public Usuario(string user,string pass,bool admin) 
         {
             User = user;
             Password = pass;

@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace Dominio
 {
-    public class Carrito
+    public class Autor
     {
-        public List<ItemCarrito> Items { get; set; }
-        public decimal Subtotal => Items?.Sum(i => i.Precio) ?? 0;
-
+        public int Id { get; set; }
+        public string Descripcion { get; set; }
     }
 }

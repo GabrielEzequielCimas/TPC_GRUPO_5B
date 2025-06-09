@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace Dominio
 {
-    public class Compra
+    public class ItemCarrito
     {
-        public int IdLibro { get; set; }
+        public Libro Libro { get; set; }
         public int Cantidad { get; set; }
-        public int Precio { get; set; }
-        DateTime FechaCompra { get; set; }
-
+        public decimal Precio => Libro != null ? Libro.Precio * Cantidad : 0;
     }
 }

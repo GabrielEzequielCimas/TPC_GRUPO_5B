@@ -12,6 +12,7 @@ namespace Dominio
         public string Codigo { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
+        public Autor Autor { get; set; }
         public Editorial Editorial { get; set; }
         public Genero Genero { get; set; }
         public List<Imagen> Imagenes { get; set; }

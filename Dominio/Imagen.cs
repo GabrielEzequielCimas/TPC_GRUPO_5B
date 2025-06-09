@@ -10,6 +10,6 @@ namespace Dominio
     {
         public int IdImagen { get; set; }
         public int IdLibro { get; set; }
-        public string url { get; set; }
+        public string Url { get; set; }
     }
 }
