@@ -25,7 +25,7 @@ namespace Negocio
                 {
                     Imagen aux = new Imagen();
                     aux.IdImagen = (int)imagenes.Lector["Id"];
-                    aux.url = (string)imagenes.Lector["UrlImagen"];
+                    aux.Url = (string)imagenes.Lector["UrlImagen"];
                     aux.IdLibro = idArticulo;
                     //aux.numeroImagen = contador += 1;
                     lista.Add(aux);

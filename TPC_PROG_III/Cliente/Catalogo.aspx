@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="Catalogo" Language="C#" MasterPageFile="~/Compartido/Site.Master" AutoEventWireup="true" CodeBehind="Catalogo.aspx.cs" Inherits="TPC_PROG_III.Catalogo" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-    <h2 class="text-center my-4">Elegí tu premio</h2>
+    <h2 class="text-center my-4">Catalogo</h2>
     <div class="row justify-content-center">
         <asp:Repeater ID="rptArticulos" runat="server" OnItemDataBound="rptArticulos_ItemDataBound" OnItemCommand="rptArticulos_ItemCommand">
             <ItemTemplate>
@@ -30,9 +30,8 @@
                         <div class="card-body text-center">
                             <h5 class="card-title"><%# Eval("Nombre") %></h5>
                             <p class="card-text"><%# Eval("Descripcion") %></p>
+                            <p class="card-text"><%# Eval("Autor.Nombre") %></p>
                             <p class="card-text"><%# Eval("Precio") %></p>
-                            <!--- Boton Seleccionar -->
-                            <asp:Button ID="btnSeleccionar" runat="server" Text="¡Quiero este!" CommandName="Seleccionar" CommandArgument='<%# Eval("Id") %>' CssClass="btn btn-primary" />
                         </div>
                     </div>
                 </div>

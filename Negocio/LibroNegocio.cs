@@ -17,7 +17,7 @@ namespace Negocio
             ConexionDB datos = new ConexionDB();
             try
             {
-                datos.setearConsulta("select a.Id,Codigo,Nombre,a.Descripcion,b.Id as IdEditorial,b.Descripcion as Editorial,c.Id as IdGenero,c.Descripcion as Genero,Stock,Precio from Libros a join Editoriales b on a.IdEditorial = b.Id join Generos c on a.IdEditorial = c.Id");
+                datos.setearConsulta("select a.Id,Codigo,a.Nombre,a.Descripcion,b.Id as IdEditorial,b.Descripcion as Editorial,c.Id as IdGenero,c.Descripcion as Genero,d.Id as IdAutor,d.Nombre as NombreAutor,Stock,Precio from Libros a join Editoriales b on a.IdEditorial = b.Id join Generos c on a.IdEditorial = c.Id join Autores d on d.Id = a.IdAutor");
                 datos.ejecutarLectura();
                 while (datos.Lector.Read())
                 {
@@ -30,6 +30,9 @@ namespace Negocio
                     aux.Editorial = new Editorial();
                     aux.Editorial.Id = (int)datos.Lector["IdEditorial"];
                     aux.Editorial.Descripcion = (string)datos.Lector["Editorial"];
+                    aux.Autor = new Autor();
+                    aux.Autor.Id = (int)datos.Lector["IdAutor"];
+                    aux.Autor.Nombre = (string)datos.Lector["NombreAutor"];
                     aux.Descripcion = (string)datos.Lector["Descripcion"];
                     aux.Precio = (decimal)datos.Lector["Precio"];
                     ImagenNegocio imagen = new ImagenNegocio();
