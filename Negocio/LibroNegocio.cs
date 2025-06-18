@@ -61,5 +61,42 @@ namespace Negocio
                 throw ex;
             }
         }
+        //public bool Validar(Libro nuevo)
+        //{
+        //    try
+        //    {
+        //        if nuevo.
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        throw;
+        //    }
+        //}
+        public void Agregar(Libro nuevo)
+        {
+            ConexionDB datos = new ConexionDB();
+            try
+            {
+                //datos.setearConsulta("insert into articulos (Codigo, Nombre, Descripcion) values ('" + nuevo.codigo + "','" + nuevo.nombre + "','" + nuevo.descripcion + "');");
+                //datos.setearConsulta("insert into articulos (Codigo, Nombre, Descripcion, IdMarca, IdCategoria, Precio) values ('" + nuevo.codigo + "','" + nuevo.nombre + "','" + nuevo.descripcion + "'," + nuevo.marca.idMarca + "," + nuevo.categoria.idCategoria + "," + nuevo.precio + ")");
+                datos.setearConsulta("insert into libros (Codigo, Titulo, Descripcion, IdSubGenero, Paginas) values (@Codigo,@Titulo,@Descripcion,@IdSubGenero,@Paginas)");
+                datos.setearParametro("Codigo", nuevo.Codigo);
+                datos.setearParametro("Titulo", nuevo.Titulo);
+                datos.setearParametro("Descripcion", nuevo.Descripcion);
+                datos.setearParametro("IdSubgenero", nuevo.Genero.IdSubgenero);
+                datos.setearParametro("Paginas", nuevo.Paginas);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }
