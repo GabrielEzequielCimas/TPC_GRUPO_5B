@@ -10,7 +10,7 @@ namespace Negocio
 {
     public class EditorialNegocio
     {
-        public List<Editorial> ListarGenero()
+        public List<Editorial> ListarEditorial()
         {
             List<Editorial> lista = new List<Editorial>();
             ConexionDB marcas = new ConexionDB();

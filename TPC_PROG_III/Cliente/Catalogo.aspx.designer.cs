@@ -15,12 +15,12 @@ namespace TPC_PROG_III
     {
 
         /// <summary>
-        /// Control rptArticulos.
+        /// Control rptLibros.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptArticulos;
+        protected global::System.Web.UI.WebControls.Repeater rptLibros;
     }
 }

@@ -17,26 +17,39 @@ namespace Negocio
             ConexionDB datos = new ConexionDB();
             try
             {
-                datos.setearConsulta("select a.Id,Codigo,a.Nombre,a.Descripcion,b.Id as IdEditorial,b.Descripcion as Editorial,c.Id as IdGenero,c.Descripcion as Genero,d.Id as IdAutor,d.Nombre as NombreAutor,Stock,Precio from Libros a join Editoriales b on a.IdEditorial = b.Id join Generos c on a.IdEditorial = c.Id join Autores d on d.Id = a.IdAutor");
+                datos.setearConsulta("select D.Id as IdLibro,Codigo,Titulo,A.Descripcion,E.Descripcion Editorial,d.IdEditorial,UrlImagen,h.Id ImagenId,Paginas,Stock,Precio,F.Id IdSubGenero,G.Id IdGenero,f.Descripcion DescripcionSubGenero,G.Descripcion DescripcionGenero  from Libros A join  EditorialesLibro D on D.IdLibro = A.Id join Editoriales E on E.Id = D.IdEditorial join Imagenes H on H.IdLibro = A.Id and H.IdEditorial = E.Id join SubGeneros F on A.IdSubGenero = F.Id join Generos  G on F.IdGenero = g.Id");
                 datos.ejecutarLectura();
                 while (datos.Lector.Read())
                 {
+                    //---------Libro
                     Libro aux = new Libro();
-                    aux.Id = (int)datos.Lector["Id"];
+                    aux.Id = (int)datos.Lector["IdLibro"];
                     aux.Codigo = (string)datos.Lector["Codigo"];
-                    aux.Nombre = (string)datos.Lector["Nombre"];
-                    aux.Genero = new Genero();
-                    aux.Genero.Id = (int)datos.Lector["IdGenero"];
-                    aux.Editorial = new Editorial();
-                    aux.Editorial.Id = (int)datos.Lector["IdEditorial"];
-                    aux.Editorial.Descripcion = (string)datos.Lector["Editorial"];
-                    aux.Autor = new Autor();
-                    aux.Autor.Id = (int)datos.Lector["IdAutor"];
-                    aux.Autor.Nombre = (string)datos.Lector["NombreAutor"];
-                    aux.Descripcion = (string)datos.Lector["Descripcion"];
+                    aux.Titulo = (string)datos.Lector["Titulo"];
                     aux.Precio = (decimal)datos.Lector["Precio"];
-                    ImagenNegocio imagen = new ImagenNegocio();
-                    aux.Imagenes = imagen.ListarImagenes(aux.Id);
+                    aux.Descripcion = (string)datos.Lector["Descripcion"];
+                    //---------Autor
+                    //AutorNegocio Autor = new AutorNegocio();
+                    //aux.Autores = Autor.ListarAutores(aux.Id);
+                    //---------Imagen
+                    aux.Imagen = new Imagen
+                    {
+                        IdImagen = (int)datos.Lector["ImagenId"],
+                        Url = (string)datos.Lector["UrlImagen"]
+                    };
+                    //----------Editorial
+                    aux.Editorial = new Editorial
+                    {
+                        Id = (int)datos.Lector["IdEditorial"],
+                        Descripcion = (string)datos.Lector["Editorial"]
+                    };
+                    aux.Genero = new Genero
+                    {
+                        Id = (int)datos.Lector["IdGenero"],
+                        IdSubgenero = (int)datos.Lector["IdSubGenero"],
+                        DescripcionGenero = (string)datos.Lector["DescripcionGenero"],
+                        DescripcionSubGenero = (string)datos.Lector["DescripcionSubGenero"]
+                    };
                     lista.Add(aux);
                 }
                 datos.cerrarConexion();

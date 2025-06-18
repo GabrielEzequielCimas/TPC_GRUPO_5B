@@ -10,12 +10,13 @@ namespace Dominio
     {
         public int Id { get; set; }
         public string Codigo { get; set; }
-        public string Nombre { get; set; }
+        public string Titulo { get; set; }
         public string Descripcion { get; set; }
-        public Autor Autor { get; set; }
+        public List<Autor> Autores { get; set; }
         public Editorial Editorial { get; set; }
         public Genero Genero { get; set; }
-        public List<Imagen> Imagenes { get; set; }
+        public Imagen Imagen { get; set; }
+        public int Paginas { get; set; }
         public int Stock { get; set; }
         public decimal Precio { get; set; }
     }

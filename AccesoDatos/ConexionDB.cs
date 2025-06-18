@@ -35,7 +35,7 @@ namespace accesoDatos
             try
             {
                 conexion.Open();
-                lector = comando.ExecuteReader();
+                lector = comando.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
             }
             catch (Exception ex)
             {

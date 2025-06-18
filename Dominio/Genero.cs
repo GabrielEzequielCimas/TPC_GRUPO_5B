@@ -9,6 +9,8 @@ namespace Dominio
     public class Genero
     {
         public int Id { get; set; }
-        public string Descripcion { get; set; }
+        public int IdSubgenero { get; set; }
+        public string DescripcionGenero { get; set; }
+        public string DescripcionSubGenero { get; set; }
     }
 }
