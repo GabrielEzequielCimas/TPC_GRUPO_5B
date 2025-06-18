@@ -210,6 +210,9 @@
     <Compile Include="Admin\AdminLibros.aspx.designer.cs">
       <DependentUpon>AdminLibros.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Cliente\Catalogo.aspx.designer.cs">
+      <DependentUpon>Catalogo.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Compartido\Error.aspx.cs">
       <DependentUpon>Error.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -248,9 +251,6 @@
     <Compile Include="Cliente\Catalogo.aspx.cs">
       <DependentUpon>Catalogo.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Cliente\Catalogo.aspx.designer.cs">
-      <DependentUpon>Catalogo.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="Cliente\FinalizarCompra.aspx.cs">

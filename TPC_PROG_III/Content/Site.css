@@ -56,6 +56,35 @@ textarea {
     cursor: pointer;
 }
 
+/* Filtros Catalogo */
+
+.filtros-catalogo {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-filtro {
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    min-width: 200px;
+}
+
+.btn-filtrar {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
 /* Iniciar Sesion y Registrarse */
 
 .contenedor-login {
