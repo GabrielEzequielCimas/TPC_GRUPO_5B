@@ -8,11 +8,11 @@ using Negocio;
 
 namespace TPC_PROG_III
 {
-    public partial class AdminGeneros : Page
+    public partial class AdminAutores : Page
     {
         protected bool VerificarSeleccion()
         {
-            if (dgvGenero.SelectedIndex == -1)
+            if (dgvAutor.SelectedIndex == -1)
             {
                 return true;
             }
@@ -22,12 +22,12 @@ namespace TPC_PROG_III
         {
             if (!IsPostBack)
             {
-                GeneroNegocio Negocio = new GeneroNegocio();
-                dgvGenero.DataSource = Negocio.ListarGenero();
-                dgvGenero.DataBind();
+                AutorNegocio Negocio = new AutorNegocio();
+                dgvAutor.DataSource = Negocio.ListarAutor();
+                dgvAutor.DataBind();
             }
         }
-        protected void dgvGenero_RowDataBound(object sender, GridViewRowEventArgs e)
+        protected void dgvAutor_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
@@ -37,9 +37,9 @@ namespace TPC_PROG_III
             }
         }
 
-        protected void dgvGenero_SelectedIndexChanged(object sender, EventArgs e)
+        protected void dgvAutor_SelectedIndexChanged(object sender, EventArgs e)
         {
-            GridViewRow selectedRow = dgvGenero.SelectedRow;
+            GridViewRow selectedRow = dgvAutor.SelectedRow;
             string id = selectedRow.Cells[0].Text;
             string descripcion = selectedRow.Cells[1].Text;
         }
@@ -47,54 +47,54 @@ namespace TPC_PROG_III
         protected void txtBuscar_TextChanged(object sender, EventArgs e)
         {
             string filtro = txtBuscar.Text.Trim().ToLower();
-            GeneroNegocio Negocio = new GeneroNegocio();
-            dgvGenero.DataSource = Negocio.ListarGenero(filtro);
-            dgvGenero.DataBind();
+            AutorNegocio Negocio = new AutorNegocio();
+            dgvAutor.DataSource = Negocio.ListarAutor(filtro);
+            dgvAutor.DataBind();
 
         }
 
         protected void btnModificar_Click(object sender, EventArgs e)
         {
             if (VerificarSeleccion()) return;
-            GridViewRow fila = dgvGenero.SelectedRow;
-            GeneroNegocio Negocio = new GeneroNegocio();
+            GridViewRow fila = dgvAutor.SelectedRow;
+            AutorNegocio Negocio = new AutorNegocio();
             int id = Convert.ToInt32(fila.Cells[0].Text);
             Negocio.Modificar(id, txtModificar.Text.Trim());
-            dgvGenero.DataSource = Negocio.ListarGenero();
-            dgvGenero.DataBind();
+            dgvAutor.DataSource = Negocio.ListarAutor();
+            dgvAutor.DataBind();
         }
 
         protected void btnAgregar_Click(object sender, EventArgs e)
         {
-            GeneroNegocio Negocio = new GeneroNegocio();
+            AutorNegocio Negocio = new AutorNegocio();
             if (Negocio.Existe(txtAgregar.Text.Trim()) == false)
             {
                 Negocio.Agregar(txtAgregar.Text.Trim());
-                dgvGenero.DataSource = Negocio.ListarGenero();
-                dgvGenero.DataBind();
+                dgvAutor.DataSource = Negocio.ListarAutor();
+                dgvAutor.DataBind();
             }
         }
 
         protected void btnDesactivar_Click(object sender, EventArgs e)
         {
             if (VerificarSeleccion()) return;
-            GridViewRow fila = dgvGenero.SelectedRow;
-            GeneroNegocio Negocio = new GeneroNegocio();
+            GridViewRow fila = dgvAutor.SelectedRow;
+            AutorNegocio Negocio = new AutorNegocio();
             int id = Convert.ToInt32(fila.Cells[0].Text);
             Negocio.Desactivar(id);
-            dgvGenero.DataSource = Negocio.ListarGenero();
-            dgvGenero.DataBind();
+            dgvAutor.DataSource = Negocio.ListarAutor();
+            dgvAutor.DataBind();
         }
 
         protected void btnActivar_Click(object sender, EventArgs e)
         {
             if (VerificarSeleccion()) return;
-            GridViewRow fila = dgvGenero.SelectedRow;
-            GeneroNegocio Negocio = new GeneroNegocio();
+            GridViewRow fila = dgvAutor.SelectedRow;
+            AutorNegocio Negocio = new AutorNegocio();
             int id = Convert.ToInt32(fila.Cells[0].Text);
             Negocio.Activar(id);
-            dgvGenero.DataSource = Negocio.ListarGenero();
-            dgvGenero.DataBind();
+            dgvAutor.DataSource = Negocio.ListarAutor();
+            dgvAutor.DataBind();
         }
     }
 }

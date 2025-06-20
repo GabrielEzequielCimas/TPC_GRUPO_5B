@@ -11,7 +11,7 @@ namespace TPC_PROG_III
 {
 
 
-    public partial class AdminEditoriales
+    public partial class AdminAutores
     {
 
         /// <summary>
@@ -87,12 +87,12 @@ namespace TPC_PROG_III
         protected global::System.Web.UI.WebControls.Button btnActivar;
 
         /// <summary>
-        /// Control dgvEditorial.
+        /// Control dgvAutor.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView dgvEditorial;
+        protected global::System.Web.UI.WebControls.GridView dgvAutor;
     }
 }

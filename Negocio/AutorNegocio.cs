@@ -8,13 +8,13 @@ using Dominio;
 
 namespace Negocio
 {
-    internal class AutorNegocio
+    public class AutorNegocio
     {
         public List<Autor> ListarAutor()
         {
             List<Autor> lista = new List<Autor>();
             ConexionDB marcas = new ConexionDB();
-            marcas.setearConsulta("select Id,Descripcion from autores;");
+            marcas.setearConsulta("select Id,Nombre,CASE WHEN DeletedAt IS NULL THEN 'Activo' ELSE 'Inactivo' END AS Estado from autores;");
             marcas.ejecutarLectura();
             try
             {
@@ -23,6 +23,7 @@ namespace Negocio
                     Autor aux = new Autor();
                     aux.Id = (int)marcas.Lector["Id"];
                     aux.Nombre = (string)marcas.Lector["Nombre"];
+                    aux.Estado = (string)marcas.Lector["Estado"];
                     lista.Add(aux);
                 }
                 return lista;
@@ -58,6 +59,71 @@ namespace Negocio
 
                 throw ex;
             }
+        }
+        public List<Autor> ListarAutor(string filtro)
+        {
+            List<Autor> lista = new List<Autor>();
+            ConexionDB marcas = new ConexionDB();
+            marcas.setearConsulta("select Id, Nombre,CASE WHEN DeletedAt IS NULL THEN 'Activo' ELSE 'Inactivo' END AS Estado from Autores where lower(Nombre) like @filtro;");
+            marcas.setearParametro("@filtro", "%" + filtro.ToLower() + "%");
+            marcas.ejecutarLectura();
+            try
+            {
+                while (marcas.Lector.Read())
+                {
+                    Autor aux = new Autor();
+                    aux.Id = (int)marcas.Lector["Id"];
+                    aux.Nombre = (string)marcas.Lector["Nombre"];
+                    aux.Estado = (string)marcas.Lector["Estado"];
+                    lista.Add(aux);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+        public void Modificar(int id, string Nombre)
+        {
+            ConexionDB datos = new ConexionDB();
+            datos.setearConsulta("UPDATE Autores SET Nombre = @desc, UpdatedAt = SYSDATETIME() WHERE Id = @id and @desc not in (select Nombre from Autores)");
+            datos.setearParametro("@desc", Nombre);
+            datos.setearParametro("@id", id);
+            datos.ejecutarAccion();
+        }
+        public void Desactivar(int id)
+        {
+            ConexionDB datos = new ConexionDB();
+            datos.setearConsulta("delete from Autores WHERE Id = @id");
+            datos.setearParametro("@id", id);
+            datos.ejecutarAccion();
+        }
+        public void Agregar(string Nombre)
+        {
+            ConexionDB datos = new ConexionDB();
+            datos.setearConsulta("INSERT INTO Autores (Nombre, CreatedAt) VALUES (@desc, SYSDATETIME())");
+            datos.setearParametro("@desc", Nombre);
+            datos.ejecutarAccion();
+        }
+        public bool Existe(string Nombre)
+        {
+            ConexionDB datos = new ConexionDB();
+            datos.setearConsulta("SELECT cast(max(CASE WHEN LOWER(TRIM(Nombre)) = @desc THEN 1 ELSE 0 END) as bit) AS Existe FROM Autores");
+            datos.setearParametro("@desc", Nombre);
+            datos.ejecutarLectura();
+            if (datos.Lector.Read())
+                return (bool)datos.Lector["Existe"];
+            return false;
+        }
+        public void Activar(int id)
+        {
+            ConexionDB datos = new ConexionDB();
+            datos.setearConsulta("UPDATE Autores SET DeletedAt = null WHERE Id = @id");
+            datos.setearParametro("@id", id);
+            datos.ejecutarAccion();
         }
     }
 }

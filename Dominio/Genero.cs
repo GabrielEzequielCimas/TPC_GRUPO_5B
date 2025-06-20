@@ -12,5 +12,6 @@ namespace Dominio
         public int IdSubgenero { get; set; }
         public string DescripcionGenero { get; set; }
         public string DescripcionSubGenero { get; set; }
+        public string Estado { get; set; }
     }
 }
