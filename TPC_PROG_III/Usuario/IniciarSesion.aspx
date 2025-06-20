@@ -14,7 +14,7 @@
             <asp:TextBox ID="txtPassword" runat="server" TextMode="Password" CssClass="ingresar-info" />
         </div>
 
-        <asp:Button ID="btnLogin" runat="server" Text="Ingresar" CssClass="btn-login" />
+        <asp:Button ID="btnLogin" runat="server" Text="Ingresar" CssClass="btn-login" OnClick="btnLogin_Click"/>
 
         <p class="registro-link">No tenés cuenta? <a href="/usuario/registrarse.aspx">Registrate</a></p>
     </div>
