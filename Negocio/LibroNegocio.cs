@@ -28,9 +28,11 @@ namespace Negocio
                     aux.Titulo = (string)datos.Lector["Titulo"];
                     aux.Precio = (decimal)datos.Lector["Precio"];
                     aux.Descripcion = (string)datos.Lector["Descripcion"];
+                    aux.Paginas = (int)datos.Lector["Paginas"];
+                    aux.Stock = (int)datos.Lector["Stock"];
                     //---------Autor
-                    //AutorNegocio Autor = new AutorNegocio();
-                    //aux.Autores = Autor.ListarAutores(aux.Id);
+                    AutorNegocio Autor = new AutorNegocio();
+                    aux.Autores = Autor.ListarAutores(aux.Id);
                     //---------Imagen
                     aux.Imagen = new Imagen
                     {

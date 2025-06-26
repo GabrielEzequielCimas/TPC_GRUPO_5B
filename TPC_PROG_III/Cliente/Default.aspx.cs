@@ -13,5 +13,9 @@ namespace TPC_PROG_III
         {
 
         }
+        protected void btnAdmin_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Admin/Admin.aspx");
+        }
     }
 }

@@ -9,7 +9,7 @@
     <br />
     <asp:Label ID="lblDescripcion" runat="server" CssClass="p" />
     <br />
-    <asp:Label ID="lblAutor" runat="server" CssClass="ms-2 text-primary" />
+    <asp:Label ID="lblAutor" runat="server" CssClass="p" Font-Bold="true" />
     <br /><br />
 
     <!-- Botones -->

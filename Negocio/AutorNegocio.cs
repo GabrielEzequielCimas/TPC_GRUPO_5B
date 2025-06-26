@@ -52,6 +52,7 @@ namespace Negocio
                     aux.Nombre = (string)imagenes.Lector["Nombre"];
                     lista.Add(aux);
                 }
+                imagenes.cerrarConexion();
                 return lista;
             }
             catch (Exception ex)

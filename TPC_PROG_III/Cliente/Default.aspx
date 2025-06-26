@@ -4,4 +4,5 @@
     <h2>Bienvenido a la librería online</h2>
     <p>Explorá nuestras novedades y libros destacados.</p>
     <p><a href="Catalogo" class="btn btn-primary btn-md">Catalogo &raquo;</a></p>
+    <asp:Button ID="btnAdmin" runat="server" Text="Administrador" CssClass="btn btn-primary" OnClick="btnAdmin_Click"/>
 </asp:Content>

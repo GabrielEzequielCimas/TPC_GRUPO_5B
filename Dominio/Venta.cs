@@ -11,5 +11,6 @@ namespace Dominio
         public int IdCliente {  get; set; }
         public Carrito Carrito { get; set; }
         public DateTime FechaCompra { get; set; }
+        //
     }
 }

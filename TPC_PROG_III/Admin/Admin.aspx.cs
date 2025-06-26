@@ -27,7 +27,7 @@ namespace TPC_PROG_III
         }
         protected void btnLibros_Click(object sender, EventArgs e)
         {
-            
+            Response.Redirect("AdminLibros.aspx");
         }
     }
 }
