@@ -6,12 +6,12 @@
 
         <div class="formulario">
             <label for="txtEmail">Correo electrónico</label>
-            <asp:TextBox ID="txtEmail" runat="server" CssClass="ingresar-info" />
+            <asp:TextBox ID="txtEmail" runat="server" CssClass="ingresar-info" required />
         </div>
 
         <div class="form-group">
             <label for="txtPassword">Contraseña</label>
-            <asp:TextBox ID="txtPassword" runat="server" TextMode="Password" CssClass="ingresar-info" />
+            <asp:TextBox ID="txtPassword" runat="server" TextMode="Password" CssClass="ingresar-info" required />
         </div>
 
         <asp:Button ID="btnLogin" runat="server" Text="Ingresar" CssClass="btn-login" OnClick="btnLogin_Click"/>

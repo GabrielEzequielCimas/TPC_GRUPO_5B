@@ -21,6 +21,12 @@ namespace TPC_PROG_III
             string email = txtEmail.Text.Trim();
             string password = txtPassword.Text.Trim();
 
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+            {
+                Response.Write("<script>alert('Por favor complete usuario y contraseña');</script>");
+                return;
+            }
+
             UsuarioNegocio negocio = new UsuarioNegocio();
             Usuario usuario;
 
