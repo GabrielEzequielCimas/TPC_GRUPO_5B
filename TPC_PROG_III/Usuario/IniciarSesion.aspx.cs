@@ -36,7 +36,7 @@ namespace TPC_PROG_III
 
                 // Redireccionar segun el tipo de usuario
                 if (usuario.TipoUsuario == TipoUsuario.ADMIN)
-                    Response.Redirect("/admin/PanelAdmin.aspx"); // Pagina de admin (Todavia no existe)
+                    Response.Redirect("/admin/InicioAdmin.aspx"); 
                 else
                     Response.Redirect("/cliente/Default.aspx");
             }

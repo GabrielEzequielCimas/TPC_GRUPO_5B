@@ -102,6 +102,7 @@
     <Content Include="Admin\AdminGeneros.aspx" />
     <Content Include="Admin\AdminEditoriales.aspx" />
     <Content Include="Admin\AdminLibros.aspx" />
+    <Content Include="Admin\InicioAdmin.aspx" />
     <Content Include="Compartido\Error.aspx" />
     <Content Include="Cliente\DetalleLibro.aspx" />
     <Content Include="Cliente\Carrito.aspx" />
@@ -226,6 +227,13 @@
     </Compile>
     <Compile Include="Admin\AdminLibros.aspx.designer.cs">
       <DependentUpon>AdminLibros.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\InicioAdmin.aspx.cs">
+      <DependentUpon>InicioAdmin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\InicioAdmin.aspx.designer.cs">
+      <DependentUpon>InicioAdmin.aspx</DependentUpon>
     </Compile>
     <Compile Include="Cliente\Catalogo.aspx.designer.cs">
       <DependentUpon>Catalogo.aspx</DependentUpon>
