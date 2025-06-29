@@ -15,22 +15,22 @@ namespace TPC_PROG_III
     {
 
         /// <summary>
-        /// txtCantidad control.
+        /// rptCarrito control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtCantidad;
+        protected global::System.Web.UI.WebControls.Repeater rptCarrito;
 
         /// <summary>
-        /// btnEliminar control.
+        /// lblTotal control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnEliminar;
+        protected global::System.Web.UI.WebControls.Label lblTotal;
 
         /// <summary>
         /// btnFinalizarCompra control.

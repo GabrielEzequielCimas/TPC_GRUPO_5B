@@ -6,21 +6,30 @@
     <div class="contenedor-carrito">
 
         <!-- Lista de productos -->
-        <div class="item-carrito">
-            <div class="carrito-imagen"></div>
-            <div class="carrito-info">
-                <h4 class="titulo-libro">Título del Libro</h4>
-                <p class="editorial">Editorial</p>
-                <p class="precio">Precio: $0</p>
-            </div>
-            <div class="carrito-controles">
-                <asp:TextBox ID="txtCantidad" runat="server" CssClass="input-cantidad" Text="1" />
-                <asp:Button ID="btnEliminar" runat="server" Text="Eliminar" CssClass="btn-eliminar" />
-            </div>
-        </div>
+        <asp:Repeater ID="rptCarrito" runat="server" OnItemCommand="rptCarrito_ItemCommand">
+            <ItemTemplate>
+                <div class="item-carrito">
+                    <div class="carrito-imagen">
+                        <img src='<%# Eval("Libro.Imagen") %>' width="100" />
+                    </div>
+                    <div class="carrito-info">
+                      <h4 class="titulo-libro"><%# Eval("Libro.Titulo") %></h4>
+                      <p class="editorial"><%# Eval("Libro.Editorial") %></p>
+                     <p class="precio">Precio unitario: $<%# Eval("Libro.Precio") %></p>
+                      <p class="precio">Subtotal: $<%# Eval("Precio") %></p>
+                    </div>
+                    <div class="carrito-controles">
+                       Cantidad: <%# Eval("Cantidad") %>
+                      <asp:LinkButton ID="btnEliminar" runat="server" CommandArgument='<%# Eval("Libro.Id") %>'CommandName="Eliminar"CssClass="btn-eliminar">
+                          Eliminar
+                      </asp:LinkButton>
+                    </div>
+                </div>
+            </ItemTemplate>
+        </asp:Repeater>
 
         <div class="carrito-total">
-            <p>Total: $0</p>
+            <asp:Label ID="lblTotal" runat="server" CssClass="carrito-total-texto" />
             <asp:Button ID="btnFinalizarCompra" runat="server" Text="Finalizar Compra" CssClass="btn-finalizar" />
         </div>
     </div>
