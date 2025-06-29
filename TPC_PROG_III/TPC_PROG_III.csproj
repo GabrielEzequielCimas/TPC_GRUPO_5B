@@ -105,6 +105,7 @@
     <Content Include="Compartido\Error.aspx" />
     <Content Include="Cliente\DetalleLibro.aspx" />
     <Content Include="Cliente\Carrito.aspx" />
+    <Content Include="Usuario\CerrarSesion.aspx" />
     <Content Include="Usuario\IniciarSesion.aspx" />
     <Content Include="Usuario\Registrarse.aspx" />
     <Content Include="Cliente\Catalogo.aspx" />
@@ -249,6 +250,13 @@
     </Compile>
     <Compile Include="Cliente\Carrito.aspx.designer.cs">
       <DependentUpon>Carrito.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario\CerrarSesion.aspx.cs">
+      <DependentUpon>CerrarSesion.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Usuario\CerrarSesion.aspx.designer.cs">
+      <DependentUpon>CerrarSesion.aspx</DependentUpon>
     </Compile>
     <Compile Include="Usuario\IniciarSesion.aspx.cs">
       <DependentUpon>IniciarSesion.aspx</DependentUpon>
