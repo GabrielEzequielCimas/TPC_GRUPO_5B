@@ -24,7 +24,7 @@ namespace TPC_PROG_III
                     if (libro != null)
                     {
                         lblTitulo.Text = libro.Titulo;
-                        imgLibro.ImageUrl = libro.Imagen.Url;
+                        imgLibro.ImageUrl = libro.Imagen;
                         lblDescripcion.Text = libro.Descripcion;
                         lblGenero.Text = libro.Genero.DescripcionGenero;
                         lblAutor.Text = "Autor/es: " + string.Join(", ", libro.Autores.Select(a => a.Nombre));

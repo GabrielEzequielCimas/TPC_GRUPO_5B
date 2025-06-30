@@ -17,7 +17,7 @@ namespace Negocio
             ConexionDB datos = new ConexionDB();
             try
             {
-                datos.setearConsulta("select D.Id as IdLibro,Codigo,Titulo,A.Descripcion,E.Descripcion Editorial,d.IdEditorial,UrlImagen,h.Id ImagenId,Paginas,Stock,Precio,F.Id IdSubGenero,G.Id IdGenero,f.Descripcion DescripcionSubGenero,G.Descripcion DescripcionGenero  from Libros A join  EditorialesLibro D on D.IdLibro = A.Id join Editoriales E on E.Id = D.IdEditorial join Imagenes H on H.IdLibro = A.Id and H.IdEditorial = E.Id join SubGeneros F on A.IdSubGenero = F.Id join Generos  G on F.IdGenero = g.Id");
+                datos.setearConsulta("select a.Id as IdLibro,Codigo,Titulo,A.Descripcion,E.Descripcion Editorial,IdEditorial,UrlImagen,Paginas,Stock,Precio,F.Id IdSubGenero,G.Id IdGenero,f.Descripcion DescripcionSubGenero,G.Descripcion DescripcionGenero  from Libros A join Editoriales E on E.Id = A.IdEditorial join SubGeneros F on A.IdSubGenero = F.Id join Generos  G on F.IdGenero = g.Id");
                 datos.ejecutarLectura();
                 while (datos.Lector.Read())
                 {
@@ -34,11 +34,7 @@ namespace Negocio
                     AutorNegocio Autor = new AutorNegocio();
                     aux.Autores = Autor.ListarAutores(aux.Id);
                     //---------Imagen
-                    aux.Imagen = new Imagen
-                    {
-                        IdImagen = (int)datos.Lector["ImagenId"],
-                        Url = (string)datos.Lector["UrlImagen"]
-                    };
+                    aux.Imagen = (string)datos.Lector["UrlImagen"];
                     //----------Editorial
                     aux.Editorial = new Editorial
                     {

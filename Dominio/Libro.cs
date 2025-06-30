@@ -15,7 +15,7 @@ namespace Dominio
         public List<Autor> Autores { get; set; }
         public Editorial Editorial { get; set; }
         public Genero Genero { get; set; }
-        public Imagen Imagen { get; set; }
+        public string Imagen { get; set; }
         public int Paginas { get; set; }
         public int Stock { get; set; }
         public decimal Precio { get; set; }

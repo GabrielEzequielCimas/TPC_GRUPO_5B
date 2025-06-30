@@ -26,7 +26,7 @@
             <ItemTemplate>
                 <div class="carta-libro">
                     <div class="imagen-placeholder">
-                        <img src='<%# Eval("Imagen.Url") %>' alt="Portada" style="width:100%; height:180px; object-fit:cover; border-radius:6px;" />
+                        <img src='<%# Eval("Imagen") %>' alt="Portada" style="width:100%; height:180px; object-fit:cover; border-radius:6px;" />
                     </div>
                     <h4 style="font-size: 16px;"><%# Eval("Titulo") %></h4>
                     <p style="color: #007bff;"><%# String.Format("${0:N2}", Eval("Precio")) %></p>
