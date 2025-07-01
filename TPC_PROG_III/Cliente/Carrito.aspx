@@ -22,7 +22,7 @@
                        Cantidad: <%# Eval("Cantidad") %>
                       <asp:LinkButton ID="btnEliminar" runat="server" CommandArgument='<%# Eval("Libro.Id") %>' CommandName="Eliminar" CssClass="btn-eliminar">
                           Eliminar
-                      </asp:LinkButton>
+                      </asp:LinkButton> 
                     </div>
                 </div>
             </ItemTemplate>
