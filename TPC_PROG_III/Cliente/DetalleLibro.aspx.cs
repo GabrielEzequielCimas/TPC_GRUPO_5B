@@ -87,7 +87,7 @@ namespace TPC_PROG_III
             Session["carrito"] = carrito;
 
             // Redirigir al carrito
-            Response.Redirect("~/Carrito.aspx");
+            Response.Redirect("~/Cliente/Carrito.aspx");
         }
     }
 }
