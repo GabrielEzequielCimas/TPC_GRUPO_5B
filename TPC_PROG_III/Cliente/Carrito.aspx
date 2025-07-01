@@ -14,7 +14,7 @@
                     </div>
                     <div class="carrito-info">
                       <h4 class="titulo-libro"><%# Eval("Libro.Titulo") %></h4>
-                      <p class="editorial"><%# Eval("Libro.Editorial") %></p>
+                      <p class="editorial"><%# Eval("Libro.Editorial.Descripcion") %></p>
                      <p class="precio">Precio unitario: $<%# Eval("Libro.Precio") %></p>
                       <p class="precio">Subtotal: $<%# Eval("Precio") %></p>
                     </div>
