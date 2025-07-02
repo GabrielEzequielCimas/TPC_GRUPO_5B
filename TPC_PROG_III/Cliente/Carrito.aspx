@@ -37,7 +37,7 @@
         <asp:Button ID="Button1" runat="server" Text="Volver al Catálogo" CssClass="btn-volver" OnClick="btnVolverCatalogo_Click" />
         <div class="carrito-total">
             <asp:Label ID="lblTotal" runat="server" CssClass="carrito-total-texto" />
-            <asp:Button ID="btnFinalizarCompra" runat="server" Text="Finalizar Compra" CssClass="btn-finalizar" />
+            <asp:Button ID="btnFinalizarCompra" runat="server" Text="Finalizar Compra" CssClass="btn-finalizar" OnClick="btnFinalizarCompra_Click" />
         </div>
         
     </div>

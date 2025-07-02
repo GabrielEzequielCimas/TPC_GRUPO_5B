@@ -70,5 +70,10 @@ namespace TPC_PROG_III
         {
                 Response.Redirect("~/Cliente/Catalogo.aspx");
         }
+
+        protected void btnFinalizarCompra_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Cliente/FinalizarCompra.aspx");
+        }
     }
 }
