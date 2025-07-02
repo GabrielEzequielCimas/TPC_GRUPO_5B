@@ -35,4 +35,5 @@
             </ItemTemplate>
         </asp:Repeater>
     </div>
+    <asp:Literal ID="litPaginacion" runat="server" />
 </asp:Content>

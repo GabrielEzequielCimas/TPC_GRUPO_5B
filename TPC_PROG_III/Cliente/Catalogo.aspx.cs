@@ -24,11 +24,46 @@ namespace TPC_PROG_III.Cliente
         private void cargarLibros()
         {
             LibroNegocio negocio = new LibroNegocio();
-            var libros = negocio.Listar();
+
+            int pagina = 1;
+            if (Request.QueryString["pagina"] != null)
+                pagina = int.Parse(Request.QueryString["pagina"]);
+
+            int cantidadPorPagina = 100; // Cambiá según cuántos mostrar
+            int skip = (pagina - 1) * cantidadPorPagina;
+
+            var libros = negocio.ListarPaginado(skip, cantidadPorPagina);
 
             Session["Libros"] = libros;
             rptLibros.DataSource = libros;
             rptLibros.DataBind();
+
+            generarPaginacion(pagina);
+        }
+
+        private void generarPaginacion(int paginaActual)
+        {
+            LibroNegocio negocio = new LibroNegocio();
+            int totalLibros = negocio.ContarLibros();
+            int cantidadPorPagina = 100;
+            int totalPaginas = (int)Math.Ceiling((decimal)totalLibros / cantidadPorPagina);
+
+            // Construir HTML
+            string paginacionHtml = "<div class='paginacion'>";
+            for (int i = 1; i <= totalPaginas; i++)
+            {
+                if (i == paginaActual)
+                {
+                    paginacionHtml += $"<span class='pagina-actual'>{i}</span>";
+                }
+                else
+                {
+                    paginacionHtml += $"<a href='Catalogo.aspx?pagina={i}'>{i}</a>";
+                }
+            }
+            paginacionHtml += "</div>";
+
+            litPaginacion.Text = paginacionHtml;
         }
 
         private void cargarFiltros()

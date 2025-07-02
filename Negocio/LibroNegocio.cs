@@ -59,6 +59,89 @@ namespace Negocio
                 throw ex;
             }
         }
+
+        public List<Libro> ListarPaginado(int skip, int take)
+        {
+            List<Libro> lista = new List<Libro>();
+            ConexionDB datos = new ConexionDB();
+            try
+            {
+                datos.setearConsulta(@" SELECT a.Id AS IdLibro, Codigo, Titulo, A.Descripcion, E.Descripcion AS Editorial, IdEditorial, UrlImagen, Paginas, Stock, Precio, F.Id AS IdSubGenero, G.Id AS IdGenero, F.Descripcion AS DescripcionSubGenero, G.Descripcion AS DescripcionGenero
+                                        FROM Libros A
+                                        JOIN Editoriales E ON E.Id = A.IdEditorial
+                                        JOIN SubGeneros F ON A.IdSubGenero = F.Id
+                                        JOIN Generos G ON F.IdGenero = G.Id
+                                        ORDER BY Titulo
+                                        OFFSET @Skip ROWS FETCH NEXT @Take ROWS ONLY");
+                datos.setearParametro("Skip", skip);
+                datos.setearParametro("Take", take);
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Libro aux = new Libro();
+                    aux.Id = (int)datos.Lector["IdLibro"];
+                    aux.Codigo = (string)datos.Lector["Codigo"];
+                    aux.Titulo = (string)datos.Lector["Titulo"];
+                    aux.Precio = (decimal)datos.Lector["Precio"];
+                    aux.Descripcion = (string)datos.Lector["Descripcion"];
+                    aux.Paginas = (int)datos.Lector["Paginas"];
+                    aux.Stock = (int)datos.Lector["Stock"];
+                    aux.Imagen = (string)datos.Lector["UrlImagen"];
+
+                    aux.Editorial = new Editorial
+                    {
+                        Id = (int)datos.Lector["IdEditorial"],
+                        Descripcion = (string)datos.Lector["Editorial"]
+                    };
+
+                    aux.Genero = new Genero
+                    {
+                        Id = (int)datos.Lector["IdGenero"],
+                        IdSubgenero = (int)datos.Lector["IdSubGenero"],
+                        DescripcionGenero = (string)datos.Lector["DescripcionGenero"],
+                        DescripcionSubGenero = (string)datos.Lector["DescripcionSubGenero"]
+                    };
+
+                    // Cargar autores
+                    AutorNegocio Autor = new AutorNegocio();
+                    aux.Autores = Autor.ListarAutores(aux.Id);
+
+                    lista.Add(aux);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public int ContarLibros()
+        {
+            ConexionDB datos = new ConexionDB();
+            try
+            {
+                datos.setearConsulta("SELECT COUNT(*) FROM Libros");
+                datos.ejecutarLectura();
+                if (datos.Lector.Read())
+                    return (int)datos.Lector[0];
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
         //public bool Validar(Libro nuevo)
         //{
         //    try
