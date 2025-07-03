@@ -30,23 +30,50 @@ namespace TPC_PROG_III
 
         protected void rptCarrito_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
+            Dominio.Carrito carrito = Session["carrito"] as Dominio.Carrito;
+            if (carrito == null)
+                return;
+
+            int idLibro = Convert.ToInt32(e.CommandArgument);
+
             if (e.CommandName == "Eliminar")
             {
-                int idLibro = Convert.ToInt32(e.CommandArgument);
-                Dominio.Carrito carrito = Session["carrito"] as Dominio.Carrito;
-                if (carrito != null)
+                var item = carrito.Items.FirstOrDefault(i => i.Libro.Id == idLibro);
+                if (item != null)
+                    carrito.Items.Remove(item);
+            }
+            else if (e.CommandName == "Actualizar")
+            {
+                // Obtener el TextBox con la cantidad
+                TextBox txtCantidad = e.Item.FindControl("txtCantidad") as TextBox;
+                if (txtCantidad != null)
                 {
-                    var item = carrito.Items.FirstOrDefault(i => i.Libro.Id == idLibro);
-                    if (item != null)
+                    int nuevaCantidad;
+                    if (int.TryParse(txtCantidad.Text, out nuevaCantidad) && nuevaCantidad > 0)
                     {
-                        carrito.Items.Remove(item);
-                        Session["carrito"] = carrito;
+                        var item = carrito.Items.FirstOrDefault(i => i.Libro.Id == idLibro);
+                        if (item != null)
+                        {
+                            item.Cantidad = nuevaCantidad;
+                        }
                     }
                 }
-                // Recargar la página
-                Response.Redirect(Request.RawUrl);
             }
+
+            // Actualizar el carrito en sesion
+            Session["carrito"] = carrito;
+
+            // Recargar la pagina
+            Response.Redirect(Request.RawUrl);
+        }
+        protected void btnVolverCatalogo_Click(object sender, EventArgs e)
+        {
+                Response.Redirect("~/Cliente/Catalogo.aspx");
         }
 
+        protected void btnFinalizarCompra_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Cliente/FinalizarCompra.aspx");
+        }
     }
 }

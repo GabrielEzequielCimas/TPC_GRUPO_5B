@@ -19,18 +19,26 @@
                       <p class="precio">Subtotal: $<%# Eval("Precio") %></p>
                     </div>
                     <div class="carrito-controles">
-                       Cantidad: <%# Eval("Cantidad") %>
-                      <asp:LinkButton ID="btnEliminar" runat="server" CommandArgument='<%# Eval("Libro.Id") %>' CommandName="Eliminar" CssClass="btn-eliminar">
-                          Eliminar
-                      </asp:LinkButton> 
+                        <label for="txtCantidad">Cantidad:</label>
+                        <asp:TextBox ID="txtCantidad" runat="server" Text='<%# Eval("Cantidad") %>' Width="40" />
+        
+                        <asp:LinkButton ID="btnActualizar" runat="server" CommandArgument='<%# Eval("Libro.Id") %>' CommandName="Actualizar" CssClass="btn-actualizar">
+                            Actualizar
+                        </asp:LinkButton>
+    
+                        <asp:LinkButton ID="btnEliminar" runat="server" CommandArgument='<%# Eval("Libro.Id") %>' CommandName="Eliminar" CssClass="btn-eliminar">
+                            Eliminar
+                        </asp:LinkButton>
                     </div>
                 </div>
             </ItemTemplate>
         </asp:Repeater>
 
+        <asp:Button ID="Button1" runat="server" Text="Volver al Catálogo" CssClass="btn-volver" OnClick="btnVolverCatalogo_Click" />
         <div class="carrito-total">
             <asp:Label ID="lblTotal" runat="server" CssClass="carrito-total-texto" />
-            <asp:Button ID="btnFinalizarCompra" runat="server" Text="Finalizar Compra" CssClass="btn-finalizar" />
+            <asp:Button ID="btnFinalizarCompra" runat="server" Text="Finalizar Compra" CssClass="btn-finalizar" OnClick="btnFinalizarCompra_Click" />
         </div>
+        
     </div>
 </asp:Content>
