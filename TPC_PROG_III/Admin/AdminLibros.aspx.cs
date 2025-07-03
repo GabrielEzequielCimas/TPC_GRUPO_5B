@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Dominio;
 using Negocio;
 
 namespace TPC_PROG_III
@@ -22,9 +23,41 @@ namespace TPC_PROG_III
         {
             if (!IsPostBack)
             {
+                //DGV
                 LibroNegocio Negocio = new LibroNegocio();
+                EditorialNegocio Editorial = new EditorialNegocio();
+                GeneroNegocio Genero = new GeneroNegocio();
+                AutorNegocio Autor = new AutorNegocio();
                 dgvLibro.DataSource = Negocio.Listar();
                 dgvLibro.DataBind();
+                //DDL Editorial
+                ddlEditoriales.DataSource = Editorial.ListarEditorial();
+                ddlEditoriales.DataTextField = "Descripcion";       
+                ddlEditoriales.DataValueField = "Id"; 
+                ddlEditoriales.DataBind();
+                ddlEditoriales.Items.Insert(0, new ListItem("Seleccionar Editorial", ""));
+                //DDL Genero
+                ddlGeneros.DataSource = Genero.ListarGenero();
+                ddlGeneros.DataTextField = "DescripcionGenero";
+                ddlGeneros.DataValueField = "Id";
+                ddlGeneros.DataBind();
+                ddlGeneros.Items.Insert(0, new ListItem("Seleccionar Genero", ""));
+                //DDL SubGenero
+                ddlSubGeneros.DataSource = Genero.ListarSubGenero();
+                ddlSubGeneros.DataTextField = "DescripcionSubGenero";
+                ddlSubGeneros.DataValueField = "IdSubGenero";
+                ddlSubGeneros.DataBind();
+                ddlSubGeneros.Items.Insert(0, new ListItem("Seleccionar SubGenero", ""));
+                //DDL Autores
+                chkAutores.DataSource = Autor.ListarAutor();
+                chkAutores.DataTextField = "Nombre";
+                chkAutores.DataValueField = "Id";
+                chkAutores.DataBind();
+                //ddlCheckList.DataSource = Autor.ListarAutor();
+                //ddlCheckList.DataTextField = "Nombre";
+                //ddlCheckList.DataValueField = "Id";
+                //ddlCheckList.DataBind();
+                //ddlCheckList.Items.Insert(0, new ListItem("Seleccionar Autores", ""));
             }
         }
         protected void dgvLibro_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -42,6 +75,40 @@ namespace TPC_PROG_III
             GridViewRow selectedRow = dgvLibro.SelectedRow;
             string id = selectedRow.Cells[0].Text;
             string descripcion = selectedRow.Cells[1].Text;
+        }
+        protected void btnBuscar_Click(object sender, EventArgs e)
+        {
+            string filtro = txtBuscar.Text.Trim().ToLower();
+            LibroNegocio Negocio = new LibroNegocio();
+            dgvLibro.DataSource = Negocio.Listar(filtro);
+            dgvLibro.DataBind();
+        }
+
+        protected void ddlGeneros_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string valorSeleccionado = ddlGeneros.SelectedValue;
+            if (!int.TryParse(valorSeleccionado, out int idSeleccionado))
+                return;
+            GeneroNegocio Genero = new GeneroNegocio();
+            List <Genero> Lista = Genero.ListarSubGenero();
+            var filtrado = Lista.Where(l => l.Id == idSeleccionado).ToList();
+            ddlSubGeneros.DataSource = filtrado;
+            ddlSubGeneros.DataTextField = "DescripcionSubGenero";
+            ddlSubGeneros.DataValueField = "IdSubGenero";
+            ddlSubGeneros.DataBind();
+            ddlSubGeneros.Items.Insert(0, new ListItem("Seleccionar SubGenero", ""));
+        }
+
+        protected void ddlSubGeneros_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string valorSeleccionado = ddlSubGeneros.SelectedValue;
+            if (!int.TryParse(valorSeleccionado, out int idSeleccionado))
+                return;
+            GeneroNegocio Genero = new GeneroNegocio();
+            List<Genero> Lista = Genero.ListarSubGenero();
+            var filtrado = Lista.Where(l => l.IdSubgenero == idSeleccionado).ToList();
+            int id = filtrado[0].Id;
+            ddlGeneros.SelectedValue = id.ToString();
         }
 
         //protected void btnDesactivar_Click(object sender, EventArgs e)

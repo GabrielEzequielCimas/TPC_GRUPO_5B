@@ -71,7 +71,7 @@ namespace Negocio
         public void Desactivar(int id)
         {
             ConexionDB datos = new ConexionDB();
-            datos.setearConsulta("delete from Editoriales WHERE Id = @id");
+            datos.setearConsulta("update Editoriales set DeletedAt = SYSDATETIME() WHERE Id = @id");
             datos.setearParametro("@id", id);
             datos.ejecutarAccion();
         }

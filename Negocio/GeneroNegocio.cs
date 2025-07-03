@@ -60,6 +60,57 @@ namespace Negocio
                 throw ex;
             }
         }
+        public List<Genero> ListarSubGenero(int IdGenero)
+        {
+            List<Genero> lista = new List<Genero>();
+            ConexionDB marcas = new ConexionDB();
+            marcas.setearConsulta("select IdGenero, Descripcion, Id from SubGeneros where IdGenero = @IdGenero");
+            marcas.setearParametro("@IdGenero", IdGenero);
+            marcas.ejecutarLectura();
+            try
+            {
+                while (marcas.Lector.Read())
+                {
+                    Genero aux = new Genero();
+                    aux.Id = (int)marcas.Lector["IdGenero"];
+                    aux.DescripcionSubGenero = (string)marcas.Lector["Descripcion"];
+                    aux.IdSubgenero = (int)marcas.Lector["Id"];
+                    //aux.Estado = (string)marcas.Lector["Estado"];
+                    lista.Add(aux);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public List<Genero> ListarSubGenero()
+        {
+            List<Genero> lista = new List<Genero>();
+            ConexionDB marcas = new ConexionDB();
+            marcas.setearConsulta("select IdGenero, Descripcion, Id from SubGeneros");
+            marcas.ejecutarLectura();
+            try
+            {
+                while (marcas.Lector.Read())
+                {
+                    Genero aux = new Genero();
+                    aux.Id = (int)marcas.Lector["IdGenero"];
+                    aux.DescripcionSubGenero = (string)marcas.Lector["Descripcion"];
+                    aux.IdSubgenero = (int)marcas.Lector["Id"];
+                    //aux.Estado = (string)marcas.Lector["Estado"];
+                    lista.Add(aux);
+                }
+                return lista;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
         public List<Genero> ListarGenero(string filtro)
         {
             List<Genero> lista = new List<Genero>();
@@ -97,7 +148,7 @@ namespace Negocio
         public void Desactivar(int id)
         {
             ConexionDB datos = new ConexionDB();
-            datos.setearConsulta("delete from Generos WHERE Id = @id");
+            datos.setearConsulta("update Generos set DeletedAt = SYSDATETIME() WHERE Id = @id");
             datos.setearParametro("@id", id);
             datos.ejecutarAccion();
         }
