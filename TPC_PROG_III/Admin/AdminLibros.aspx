@@ -31,6 +31,7 @@
         </div>
     </div>
     <%--<asp:DropDownList ID="ddlCheckList" runat="server" CssClass="form-control" multiple="multiple"></asp:DropDownList>--%>
+    <p>Seleccione Autor/es:</p>
     <div style="height: 200px; overflow-y: auto; border: 1px solid #ccc; padding: 5px;">
         <asp:CheckBoxList
             ID="chkAutores"

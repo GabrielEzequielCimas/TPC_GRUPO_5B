@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -72,9 +73,23 @@ namespace TPC_PROG_III
 
         protected void dgvLibro_SelectedIndexChanged(object sender, EventArgs e)
         {
+            Libro Seleccionado = new Libro();
+            LibroNegocio Negocio = new LibroNegocio();
             GridViewRow selectedRow = dgvLibro.SelectedRow;
             string id = selectedRow.Cells[0].Text;
             string descripcion = selectedRow.Cells[1].Text;
+            var filtrado = Negocio.Listar().Where(l => l.Id.ToString() == id).ToList();
+            Seleccionado = filtrado[0];
+            txtCodigo.Text = Seleccionado.Codigo;
+            txtTitulo.Text = Seleccionado.Titulo;
+            txtStock.Text = Seleccionado.Stock.ToString();
+            txtPrecio.Text = Seleccionado.Precio.ToString();
+            txtPaginas.Text = Seleccionado.Paginas.ToString();
+            txtUrl.Text = Seleccionado.Imagen.ToString();
+            txtDescripcion.Text = Seleccionado.Descripcion;
+            ddlEditoriales.SelectedValue = Seleccionado.Editorial.Id.ToString();
+            ddlGeneros.SelectedValue = Seleccionado.Genero.Id.ToString();
+            ddlSubGeneros.SelectedValue = Seleccionado.Genero.IdSubgenero.ToString();
         }
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
