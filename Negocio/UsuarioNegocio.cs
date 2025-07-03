@@ -96,5 +96,62 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        public Usuario Loguear(string username, string password)
+        {
+            ConexionDB datos = new ConexionDB();
+            Usuario usuario = null;
+
+            try
+            {
+                datos.setearConsulta(@"
+            SELECT 
+                U.Id AS UsuarioId,
+                U.Username,
+                U.Pass,
+                U.Rol,
+                C.Id AS ClienteId,
+                C.Documento,
+                C.Nombre,
+                C.Apellido,
+                C.Email
+            FROM Usuarios U
+            LEFT JOIN Clientes C ON U.IdCliente = C.Id
+            WHERE U.Username = @username AND U.Pass = @password
+        ");
+                datos.setearParametro("@username", username);
+                datos.setearParametro("@password", password);
+
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    usuario = new Usuario
+                    {
+                        Id = (int)datos.Lector["UsuarioId"],
+                        User = (string)datos.Lector["Username"],
+                        Password = (string)datos.Lector["Pass"],
+                        TipoUsuario = (TipoUsuario)datos.Lector["Rol"],
+                        Cliente = datos.Lector["ClienteId"] != DBNull.Value ? new Cliente
+                        {
+                            Id = (int)datos.Lector["ClienteId"],
+                            Documento = (int)datos.Lector["Documento"],
+                            Nombre = (string)datos.Lector["Nombre"],
+                            Apellido = (string)datos.Lector["Apellido"],
+                            Email = (string)datos.Lector["Email"]
+                        } : null
+                    };
+                }
+                return usuario;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }

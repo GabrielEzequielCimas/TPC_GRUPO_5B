@@ -31,5 +31,9 @@ namespace Dominio
             Password = pass;
             TipoUsuario = admin ? TipoUsuario.ADMIN : TipoUsuario.CLIENTE;
         }
+
+        public Usuario() { }
+
+        public Cliente Cliente { get; set; }
     }
 }
