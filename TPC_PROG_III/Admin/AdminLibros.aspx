@@ -41,6 +41,11 @@
             RepeatDirection="Vertical">
         </asp:CheckBoxList>
     </div>
+    <asp:Button ID="btnModificar" runat="server" Text="Modificar" CssClass="btn btn-primary" OnClick="btnModificar_Click" />
+    <asp:Button ID="btnAgregar" runat="server" Text="Agregar" CssClass="btn btn-primary" OnClick="btnAgregar_Click" />
+    <asp:Button ID="btnEliminar" runat="server" Text="Desactivar" CssClass="btn btn-primary" OnClick="btnDesactivar_Click" />
+    <asp:Button ID="btnActivar" runat="server" Text="Activar" CssClass="btn btn-primary" OnClick="btnActivar_Click" />
+    <asp:Label ID="lblError" runat="server" ForeColor="Red" Visible="false" />
     <asp:GridView ID="dgvLibro" runat="server" AutoGenerateColumns="False"
         OnSelectedIndexChanged="dgvLibro_SelectedIndexChanged"
         OnRowDataBound="dgvLibro_RowDataBound"
@@ -51,6 +56,8 @@
             <asp:BoundField DataField="Id" HeaderText="ID" />
             <asp:BoundField DataField="Codigo" HeaderText="Codigo" />
             <asp:BoundField DataField="Titulo" HeaderText="Titulo" />
+            <asp:BoundField DataField="Editorial.Descripcion" HeaderText="Editorial" />
+            <asp:BoundField DataField="Estado" HeaderText="Estado" />
             <%--<asp:BoundField DataField="Editorial.Descripcion" HeaderText="Editorial" />--%>
             <%--<asp:BoundField DataField="Genero.Descripcion" HeaderText="Descripcion" />--%>
             <%--<asp:BoundField DataField="Paginas" HeaderText="Paginas" />--%>

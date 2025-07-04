@@ -17,7 +17,7 @@ namespace Negocio
             ConexionDB datos = new ConexionDB();
             try
             {
-                datos.setearConsulta("select a.Id as IdLibro,Codigo,Titulo,A.Descripcion,E.Descripcion Editorial,IdEditorial,UrlImagen,Paginas,Stock,Precio,F.Id IdSubGenero,G.Id IdGenero,f.Descripcion DescripcionSubGenero,G.Descripcion DescripcionGenero  from Libros A join Editoriales E on E.Id = A.IdEditorial join SubGeneros F on A.IdSubGenero = F.Id join Generos  G on F.IdGenero = g.Id");
+                datos.setearConsulta("select a.Id as IdLibro,Codigo,Titulo,A.Descripcion,E.Descripcion Editorial,IdEditorial,UrlImagen,Paginas,Stock,Precio,F.Id IdSubGenero,G.Id IdGenero,f.Descripcion DescripcionSubGenero,G.Descripcion DescripcionGenero,case when a.DeletedAt is null then 'Activo' else 'Inactivo' end as Estado  from Libros A join Editoriales E on E.Id = A.IdEditorial join SubGeneros F on A.IdSubGenero = F.Id join Generos  G on F.IdGenero = g.Id");
                 datos.ejecutarLectura();
                 while (datos.Lector.Read())
                 {
@@ -48,6 +48,7 @@ namespace Negocio
                         DescripcionGenero = (string)datos.Lector["DescripcionGenero"],
                         DescripcionSubGenero = (string)datos.Lector["DescripcionSubGenero"]
                     };
+                    aux.Estado = (string)datos.Lector["Estado"];
                     lista.Add(aux);
                 }
                 datos.cerrarConexion();
@@ -205,24 +206,150 @@ namespace Negocio
             }
         }
 
-        public void Agregar(Libro nuevo)
+        public void Activar(int id)
+        {
+            ConexionDB datos = new ConexionDB();
+            datos.setearConsulta("UPDATE Libros SET DeletedAt = null WHERE Id = @id");
+            datos.setearParametro("@id", id);
+            datos.ejecutarAccion();
+        }
+        public void Desactivar(int id)
+        {
+            ConexionDB datos = new ConexionDB();
+            datos.setearConsulta("update Libros set DeletedAt = SYSDATETIME() WHERE Id = @id");
+            datos.setearParametro("@id", id);
+            datos.ejecutarAccion();
+        }
+        public int Validar(int id, string codigo, string titulo, int idEditorial)
         {
             ConexionDB datos = new ConexionDB();
             try
             {
-                //datos.setearConsulta("insert into articulos (Codigo, Nombre, Descripcion) values ('" + nuevo.codigo + "','" + nuevo.nombre + "','" + nuevo.descripcion + "');");
-                //datos.setearConsulta("insert into articulos (Codigo, Nombre, Descripcion, IdMarca, IdCategoria, Precio) values ('" + nuevo.codigo + "','" + nuevo.nombre + "','" + nuevo.descripcion + "'," + nuevo.marca.idMarca + "," + nuevo.categoria.idCategoria + "," + nuevo.precio + ")");
-                datos.setearConsulta("insert into libros (Codigo, Titulo, Descripcion, IdSubGenero, Paginas) values (@Codigo,@Titulo,@Descripcion,@IdSubGenero,@Paginas)");
-                datos.setearParametro("Codigo", nuevo.Codigo);
-                datos.setearParametro("Titulo", nuevo.Titulo);
-                datos.setearParametro("Descripcion", nuevo.Descripcion);
-                datos.setearParametro("IdSubgenero", nuevo.Genero.IdSubgenero);
-                datos.setearParametro("Paginas", nuevo.Paginas);
-                datos.ejecutarAccion();
+                string consulta = @"
+                SELECT 
+                    CASE 
+                        WHEN Codigo = @Codigo and Id <> @Id THEN 1 
+                        WHEN Titulo = @Titulo AND IdEditorial = @IdEditorial and Id <> @Id THEN 2 
+                    END AS Respuesta 
+                FROM Libros 
+                WHERE (Codigo = @Codigo OR (Titulo = @Titulo AND IdEditorial = @IdEditorial)) 
+                ORDER BY 1 DESC";
+
+                datos.setearConsulta(consulta);
+
+                datos.setearParametro("@Id", id);
+                datos.setearParametro("@Codigo", codigo);
+                datos.setearParametro("@Titulo", titulo);
+                datos.setearParametro("@IdEditorial", idEditorial);
+
+                datos.ejecutarLectura();
+                if (datos.Lector.Read() && !datos.Lector.IsDBNull(0))
+                {
+                    return Convert.ToInt32(datos.Lector["Respuesta"]);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return 0;
+        }
+        public void Agregar(Libro libro)
+        {
+            ConexionDB datos = new ConexionDB();
+            try
+            {
+                datos.setearConsulta(@"
+                    INSERT INTO Libros 
+                    (Codigo, Titulo, Descripcion, IdSubGenero, IdEditorial, UrlImagen, Paginas, Precio, Stock)
+                    VALUES 
+                    (@Codigo, @Titulo, @Descripcion, @IdSubGenero, @IdEditorial, @UrlImagen, @Paginas, @Precio, @Stock);
+                    SELECT SCOPE_IDENTITY();
+                ");
+
+                datos.setearParametro("@Codigo", libro.Codigo);
+                datos.setearParametro("@Titulo", libro.Titulo);
+                datos.setearParametro("@Descripcion", libro.Descripcion);
+                datos.setearParametro("@IdSubGenero", libro.Genero.IdSubgenero);
+                datos.setearParametro("@IdEditorial", libro.Editorial.Id);
+                datos.setearParametro("@UrlImagen", libro.Imagen);
+                datos.setearParametro("@Paginas", libro.Paginas);
+                datos.setearParametro("@Precio", libro.Precio);
+                datos.setearParametro("@Stock", libro.Stock);
+                int idLibro = Convert.ToInt32(datos.ejecutarScalar());
+
+                // Insertar en tabla intermedia Libros_Autores
+                foreach (var autor in libro.Autores)
+                {
+                    datos.setearConsulta("INSERT INTO AutoresLibro (IdLibro, IdAutor) VALUES (@IdLibro, @IdAutor)");
+                    datos.setearParametro("@IdLibro", idLibro);
+                    datos.setearParametro("@IdAutor", autor.Id);
+                    datos.ejecutarAccion();
+                }
             }
             catch (Exception ex)
             {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+        public void Modificar(Libro libro)
+        {
+            ConexionDB datos = new ConexionDB();
+            try
+            {
+                datos.setearConsulta(@"
+            UPDATE Libros
+            SET Codigo = @Codigo,
+                Titulo = @Titulo,
+                Descripcion = @Descripcion,
+                IdSubGenero = @IdSubGenero,
+                IdEditorial = @IdEditorial,
+                UrlImagen = @UrlImagen,
+                Paginas = @Paginas,
+                Precio = @Precio,
+                Stock = @Stock
+                WHERE Id = @Id
+            ");
 
+                datos.setearParametro("@Id", libro.Id);
+                datos.setearParametro("@Codigo", libro.Codigo);
+                datos.setearParametro("@Titulo", libro.Titulo);
+                datos.setearParametro("@Descripcion", libro.Descripcion);
+                datos.setearParametro("@IdSubGenero", libro.Genero.IdSubgenero);
+                datos.setearParametro("@IdEditorial", libro.Editorial.Id);
+                datos.setearParametro("@UrlImagen", libro.Imagen);
+                datos.setearParametro("@Paginas", libro.Paginas);
+                datos.setearParametro("@Precio", libro.Precio);
+                datos.setearParametro("@Stock", libro.Stock);
+
+                datos.ejecutarAccion();
+
+                // Limpiar autores anteriores
+                datos.setearConsulta("DELETE FROM AutoresLibro WHERE IdLibro = @IdLibro");
+                datos.setearParametro("@IdLibro", libro.Id);
+                datos.ejecutarAccion();
+
+                // Insertar nuevos autores
+                foreach (var autor in libro.Autores)
+                {
+                    datos.setearConsulta("INSERT INTO AutoresLibro (IdLibro, IdAutor) VALUES (@IdLibro, @IdAutor)");
+                    datos.setearParametro("@IdLibro", libro.Id);
+                    datos.setearParametro("@IdAutor", autor.Id);
+                    datos.ejecutarAccion();
+                }
+                datos.cerrarConexion();
+            }
+            catch (Exception ex)
+            {
                 throw ex;
             }
             finally

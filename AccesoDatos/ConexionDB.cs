@@ -53,8 +53,12 @@ namespace accesoDatos
             }
             catch (Exception ex)
             {
-
                 throw ex;
+            }
+            finally
+            {
+                if (conexion.State == System.Data.ConnectionState.Open)
+                    conexion.Close();
             }
         }
         public void setearParametro(string nombre, object valor)
