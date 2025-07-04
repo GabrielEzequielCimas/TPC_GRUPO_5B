@@ -11,7 +11,11 @@ namespace TPC_PROG_III.Cliente
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+        }
+
+        protected void btnSeguirComprando_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Cliente/Catalogo.aspx");
         }
     }
 }

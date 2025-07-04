@@ -51,18 +51,31 @@ namespace Negocio
             try
             {
                 // Verificar si existe
-                datos.setearConsulta("SELECT Id FROM Clientes WHERE Email = @Email");
+                datos.setearConsulta("SELECT Id, Documento FROM Clientes WHERE Email = @Email");
                 datos.setearParametro("@Email", email);
                 datos.ejecutarLectura();
 
                 if (datos.Lector.Read())
                 {
                     int idExistente = (int)datos.Lector["Id"];
+
+                    // Si Documento esta vacio o en cero, actualizamos datos del cliente
+                    if (datos.Lector["Documento"] == DBNull.Value || Convert.ToInt32(datos.Lector["Documento"]) == 0)
+                    {
+                        datos.cerrarConexion();
+                        datos.setearConsulta("UPDATE Clientes SET Nombre = @Nombre, Apellido = @Apellido, Documento = @Documento WHERE Id = @Id");
+                        datos.setearParametro("@Nombre", nombre);
+                        datos.setearParametro("@Apellido", apellido);
+                        datos.setearParametro("@Documento", documento);
+                        datos.setearParametro("@Id", idExistente);
+                        datos.ejecutarAccion();
+                    }
+
                     return idExistente;
                 }
                 datos.cerrarConexion();
 
-                // Si no existe, insertarlo
+                // Si no existe, lo insertamos
                 datos.setearConsulta("INSERT INTO Clientes (Nombre, Apellido, Email, Documento) OUTPUT INSERTED.Id VALUES (@Nombre, @Apellido, @Email, @Documento)");
                 datos.setearParametro("@Nombre", nombre);
                 datos.setearParametro("@Apellido", apellido);
