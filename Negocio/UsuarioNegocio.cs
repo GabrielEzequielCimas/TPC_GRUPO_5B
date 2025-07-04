@@ -10,36 +10,52 @@ namespace Negocio
 {
     public class UsuarioNegocio
     {
-        public bool Login(string email, string password, out Usuario usuario)
+        public Usuario Loguear(string username, string password)
         {
-            usuario = null;
             ConexionDB datos = new ConexionDB();
+            Usuario usuario = null;
 
             try
             {
-                datos.setearConsulta("SELECT Id, Username, Pass, Rol FROM Usuarios WHERE Username = @user AND Pass = @pass");
-                datos.setearParametro("@user", email);
-                datos.setearParametro("@pass", password);
+                datos.setearConsulta(@"
+            SELECT 
+                U.Id AS UsuarioId,
+                U.Username,
+                U.Pass,
+                U.Rol,
+                C.Id AS ClienteId,
+                C.Documento,
+                C.Nombre,
+                C.Apellido,
+                C.Email
+            FROM Usuarios U
+            LEFT JOIN Clientes C ON U.IdCliente = C.Id
+            WHERE U.Username = @username AND U.Pass = @password
+        ");
+                datos.setearParametro("@username", username);
+                datos.setearParametro("@password", password);
+
                 datos.ejecutarLectura();
 
                 if (datos.Lector.Read())
                 {
-                    string rolTexto = datos.Lector["Rol"].ToString();
-                    TipoUsuario tipo = rolTexto == "Administrador" ? TipoUsuario.ADMIN : TipoUsuario.CLIENTE;
-
-                    usuario = new Usuario(
-                        datos.Lector["Username"].ToString(),
-                        datos.Lector["Pass"].ToString(),
-                        tipo
-                    )
+                    usuario = new Usuario
                     {
-                        Id = (int)datos.Lector["Id"]
+                        Id = (int)datos.Lector["UsuarioId"],
+                        User = (string)datos.Lector["Username"],
+                        Password = (string)datos.Lector["Pass"],
+                        TipoUsuario = (datos.Lector["Rol"].ToString() == "Administrador") ? TipoUsuario.ADMIN : TipoUsuario.CLIENTE,
+                        Cliente = datos.Lector["ClienteId"] != DBNull.Value ? new Cliente
+                        {
+                            Id = Convert.ToInt32(datos.Lector["ClienteId"]),
+                            Documento = datos.Lector["Documento"] != DBNull.Value ? Convert.ToInt32(datos.Lector["Documento"]) : 0,
+                            Nombre = datos.Lector["Nombre"] != DBNull.Value ? datos.Lector["Nombre"].ToString() : string.Empty,
+                            Apellido = datos.Lector["Apellido"] != DBNull.Value ? datos.Lector["Apellido"].ToString() : string.Empty,
+                            Email = datos.Lector["Email"] != DBNull.Value ? datos.Lector["Email"].ToString() : string.Empty
+                        } : null
                     };
-
-                    return true;
                 }
-
-                return false;
+                return usuario;
             }
             catch (Exception ex)
             {
@@ -86,63 +102,6 @@ namespace Negocio
                 datos.ejecutarLectura();
 
                 return datos.Lector.Read();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                datos.cerrarConexion();
-            }
-        }
-
-        public Usuario Loguear(string username, string password)
-        {
-            ConexionDB datos = new ConexionDB();
-            Usuario usuario = null;
-
-            try
-            {
-                datos.setearConsulta(@"
-            SELECT 
-                U.Id AS UsuarioId,
-                U.Username,
-                U.Pass,
-                U.Rol,
-                C.Id AS ClienteId,
-                C.Documento,
-                C.Nombre,
-                C.Apellido,
-                C.Email
-            FROM Usuarios U
-            LEFT JOIN Clientes C ON U.IdCliente = C.Id
-            WHERE U.Username = @username AND U.Pass = @password
-        ");
-                datos.setearParametro("@username", username);
-                datos.setearParametro("@password", password);
-
-                datos.ejecutarLectura();
-
-                if (datos.Lector.Read())
-                {
-                    usuario = new Usuario
-                    {
-                        Id = (int)datos.Lector["UsuarioId"],
-                        User = (string)datos.Lector["Username"],
-                        Password = (string)datos.Lector["Pass"],
-                        TipoUsuario = (TipoUsuario)datos.Lector["Rol"],
-                        Cliente = datos.Lector["ClienteId"] != DBNull.Value ? new Cliente
-                        {
-                            Id = (int)datos.Lector["ClienteId"],
-                            Documento = (int)datos.Lector["Documento"],
-                            Nombre = (string)datos.Lector["Nombre"],
-                            Apellido = (string)datos.Lector["Apellido"],
-                            Email = (string)datos.Lector["Email"]
-                        } : null
-                    };
-                }
-                return usuario;
             }
             catch (Exception ex)
             {

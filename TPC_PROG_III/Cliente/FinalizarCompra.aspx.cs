@@ -21,20 +21,8 @@ namespace TPC_PROG_III.Cliente
                     txtNombre.Text = usuario.Cliente.Nombre;
                     txtApellido.Text = usuario.Cliente.Apellido;
                     txtEmail.Text = usuario.Cliente.Email;
+                    txtDocumento.Text = usuario.Cliente.Documento.ToString();
                 }
-            }
-        }
-
-        protected void btnConfirmar_Click(object sender, EventArgs e)
-        {
-            if (Page.IsValid)
-            {
-                // Guardar la venta en base de datos
-                // Registrar la direccion y el metodo de pago
-                // Limpiar el carrito
-
-                // Pagina de Confirmación
-                Response.Redirect("Confirmacion.aspx");
             }
         }
 

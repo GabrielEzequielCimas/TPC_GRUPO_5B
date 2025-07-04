@@ -28,15 +28,15 @@ namespace TPC_PROG_III
             }
 
             UsuarioNegocio negocio = new UsuarioNegocio();
-            Usuario usuario;
+            Usuario usuario = negocio.Loguear(email, password);
 
-            if (negocio.Login(email, password, out usuario))
+            if (usuario != null)
             {
                 Session["usuario"] = usuario;
 
                 // Redireccionar segun el tipo de usuario
                 if (usuario.TipoUsuario == TipoUsuario.ADMIN)
-                    Response.Redirect("/admin/InicioAdmin.aspx"); 
+                    Response.Redirect("/admin/InicioAdmin.aspx");
                 else
                     Response.Redirect("/cliente/Default.aspx");
             }
