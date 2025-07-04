@@ -96,9 +96,9 @@ namespace TPC_PROG_III
                 return;
 
             LibroNegocio negocio = new LibroNegocio();
-            Libro libro = negocio.Listar().FirstOrDefault(l => l.Id == LibroId);
+            Libro libro = negocio.ObtenerPorId(LibroId);
             if (libro == null)
-                return;
+                return; 
 
             // Recupera carrito de sesion o crea uno nuevo
             Dominio.Carrito carrito = Session["carrito"] as Dominio.Carrito;
