@@ -14,6 +14,7 @@ namespace TPC_PROG_III
         {
             if (dgvAutor.SelectedIndex == -1)
             {
+                MostrarError("Seleccione un autor");
                 return true;
             }
             return false;
@@ -52,27 +53,48 @@ namespace TPC_PROG_III
             dgvAutor.DataBind();
 
         }
-
+        private void MostrarError(string mensaje)
+        {
+            lblError.Text = mensaje;
+            lblError.Visible = true;
+        }
         protected void btnModificar_Click(object sender, EventArgs e)
         {
             if (VerificarSeleccion()) return;
             GridViewRow fila = dgvAutor.SelectedRow;
             AutorNegocio Negocio = new AutorNegocio();
             int id = Convert.ToInt32(fila.Cells[0].Text);
+            if (txtModificar.Text.Trim() == "")
+            {
+                MostrarError("Debe ingresar un Autor");
+                return;
+            }
+            if (Negocio.Validar(id, txtModificar.Text.Trim()) == false)
+            {
+                MostrarError("El Autor ingresado ya existe");
+                return;
+            }
             Negocio.Modificar(id, txtModificar.Text.Trim());
             dgvAutor.DataSource = Negocio.ListarAutor();
             dgvAutor.DataBind();
         }
-
+        
         protected void btnAgregar_Click(object sender, EventArgs e)
         {
             AutorNegocio Negocio = new AutorNegocio();
-            if (Negocio.Existe(txtAgregar.Text.Trim()) == false)
+            if (txtAgregar.Text.Trim() == "")
             {
-                Negocio.Agregar(txtAgregar.Text.Trim());
-                dgvAutor.DataSource = Negocio.ListarAutor();
-                dgvAutor.DataBind();
+                MostrarError("Debe ingresar un Autor");
+                return;
             }
+            if (Negocio.Validar(0, txtAgregar.Text.Trim()) == false)
+            {
+                MostrarError("El Autor ingresado ya existe");
+                return;
+            }
+            Negocio.Agregar(txtAgregar.Text.Trim());
+            dgvAutor.DataSource = Negocio.ListarAutor();
+            dgvAutor.DataBind();
         }
 
         protected void btnDesactivar_Click(object sender, EventArgs e)

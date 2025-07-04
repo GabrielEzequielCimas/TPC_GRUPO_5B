@@ -15,7 +15,10 @@
     <div class="d-flex mb-3">
         <asp:TextBox ID="txtAgregar" runat="server" CssClass="form-control me-2" placeholder="Nuevo Autor" />
         <asp:Button ID="btnAgregar" runat="server" Text="Agregar" CssClass="btn btn-primary" OnClick="btnAgregar_Click"/>
+        
     </div>
+    <asp:Label ID="lblError" runat="server" ForeColor="Red" Visible="false" />
+    <br />
     <asp:Button ID="btnEliminar" runat="server" Text="Desactivar" CssClass="btn btn-primary" OnClick="btnDesactivar_Click"/>
     <asp:Button ID="btnActivar" runat="server" Text="Activar" CssClass="btn btn-primary" OnClick="btnActivar_Click"/>
 

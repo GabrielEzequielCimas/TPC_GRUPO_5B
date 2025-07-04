@@ -109,15 +109,15 @@ namespace Negocio
             datos.setearParametro("@desc", Nombre);
             datos.ejecutarAccion();
         }
-        public bool Existe(string Nombre)
+        public int Existe(string Nombre)
         {
             ConexionDB datos = new ConexionDB();
-            datos.setearConsulta("SELECT cast(max(CASE WHEN LOWER(TRIM(Nombre)) = @desc THEN 1 ELSE 0 END) as bit) AS Existe FROM Autores");
+            datos.setearConsulta("SELECT max(Id)IdAutor FROM Autores where LOWER(TRIM(Nombre)) = @desc");
             datos.setearParametro("@desc", Nombre);
             datos.ejecutarLectura();
             if (datos.Lector.Read())
-                return (bool)datos.Lector["Existe"];
-            return false;
+                return (int)datos.Lector["IdAutor"];
+            return 0;
         }
         public void Activar(int id)
         {
@@ -125,6 +125,19 @@ namespace Negocio
             datos.setearConsulta("UPDATE Autores SET DeletedAt = null WHERE Id = @id");
             datos.setearParametro("@id", id);
             datos.ejecutarAccion();
+        }
+        public bool Validar(int id, string Nombre)
+        {
+            ConexionDB datos = new ConexionDB();
+            datos.setearConsulta("SELECT 1 FROM Autores WHERE Id <> @id AND Nombre = @Nombre");
+            datos.setearParametro("@id", id);
+            datos.setearParametro("@Nombre", Nombre);
+            datos.ejecutarLectura();
+            if (datos.Lector.Read() && !datos.Lector.IsDBNull(0))
+            {
+                return false;
+            }
+            return true;
         }
     }
 }
