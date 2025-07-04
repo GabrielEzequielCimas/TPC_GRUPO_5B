@@ -14,5 +14,5 @@
 
     <!-- Botones -->
     <asp:Button ID="btnAgregarCarrito" runat="server" Text="Agregar al carrito" CssClass="btn btn-primary w-100" OnClick="btnAgregarCarrito_Click"/>
-    <asp:Button ID="btnComprar" runat="server" Text="Comprar" CssClass="btn btn-primary w-100" />
+    <asp:Button ID="btnComprar" runat="server" Text="Comprar" CssClass="btn btn-primary w-100" OnClick="btnComprar_Click" />
 </asp:Content>

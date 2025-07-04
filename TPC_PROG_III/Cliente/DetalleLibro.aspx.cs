@@ -89,5 +89,43 @@ namespace TPC_PROG_III
             // Redirigir al carrito
             Response.Redirect("~/Cliente/Carrito.aspx");
         }
+
+        protected void btnComprar_Click(object sender, EventArgs e)
+        {
+            if (LibroId <= 0)
+                return;
+
+            LibroNegocio negocio = new LibroNegocio();
+            Libro libro = negocio.Listar().FirstOrDefault(l => l.Id == LibroId);
+            if (libro == null)
+                return;
+
+            // Recupera carrito de sesion o crea uno nuevo
+            Dominio.Carrito carrito = Session["carrito"] as Dominio.Carrito;
+            if (carrito == null)
+            {
+                carrito = new Dominio.Carrito();
+                carrito.Items = new System.Collections.Generic.List<ItemCarrito>();
+            }
+
+            // Verifica si ya esta en el carrito
+            ItemCarrito existente = carrito.Items.FirstOrDefault(i => i.Libro.Id == libro.Id);
+            if (existente != null)
+            {
+                existente.Cantidad++;
+            }
+            else
+            {
+                carrito.Items.Add(new ItemCarrito
+                {
+                    Libro = libro,
+                    Cantidad = 1
+                });
+            }
+
+            Session["carrito"] = carrito;
+
+            Response.Redirect("~/Cliente/FinalizarCompra.aspx");
+        }
     }
 }
