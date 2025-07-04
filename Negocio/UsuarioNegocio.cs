@@ -75,11 +75,45 @@ namespace Negocio
             {
                 string rolTexto = nuevo.TipoUsuario == TipoUsuario.ADMIN ? "Administrador" : "Cliente";
 
-                datos.setearConsulta("INSERT INTO Usuarios (Username, Pass, Rol) VALUES (@user, @pass, @rol)");
+                datos.setearConsulta("INSERT INTO Usuarios (Username, Pass, Rol) VALUES (@user, @pass, @rol) SELECT SCOPE_IDENTITY();");
                 datos.setearParametro("@user", nuevo.User);
                 datos.setearParametro("@pass", nuevo.Password);
                 datos.setearParametro("@rol", rolTexto);
-                datos.ejecutarAccion();
+
+                int idUsuario = Convert.ToInt32(datos.ejecutarScalar());
+
+                int? idDireccion = null;
+
+                if (nuevo.Cliente != null && nuevo.Cliente.Direccion != null)
+                {
+                    datos.setearConsulta(@"INSERT INTO Direcciones (Provincia, Localidad, Calle, Numero, Piso, CP) VALUES (@provincia, @localidad, @calle, @numero, @piso, @cp); SELECT SCOPE_IDENTITY();");
+                    datos.setearParametro("@provincia", nuevo.Cliente.Direccion.Provincia ?? "");
+                    datos.setearParametro("@localidad", nuevo.Cliente.Direccion.Localidad ?? "");
+                    datos.setearParametro("@calle", nuevo.Cliente.Direccion.Calle ?? "");
+                    datos.setearParametro("@numero", nuevo.Cliente.Direccion.Numero);
+                    datos.setearParametro("@piso", nuevo.Cliente.Direccion.Piso.HasValue ? (object)nuevo.Cliente.Direccion.Piso.Value : DBNull.Value);
+                    datos.setearParametro("@cp", nuevo.Cliente.Direccion.CP ?? "");
+
+                    idDireccion = Convert.ToInt32(datos.ejecutarScalar());
+                }
+
+                // Insertar Cliente
+                if (nuevo.Cliente != null)
+                {
+                    datos.setearConsulta(@"INSERT INTO Clientes (Documento, Nombre, Apellido, Email) VALUES (@documento, @nombre, @apellido, @email); SELECT SCOPE_IDENTITY();");
+                    datos.setearParametro("@documento", nuevo.Cliente.Documento);
+                    datos.setearParametro("@nombre", nuevo.Cliente.Nombre ?? "");
+                    datos.setearParametro("@apellido", nuevo.Cliente.Apellido ?? "");
+                    datos.setearParametro("@email", nuevo.Cliente.Email ?? "");
+
+                    int idCliente = Convert.ToInt32(datos.ejecutarScalar());
+
+                    // Actualizar el usuario con el IdCliente
+                    datos.setearConsulta("UPDATE Usuarios SET IdCliente = @idCliente WHERE Id = @idUsuario");
+                    datos.setearParametro("@idCliente", idCliente);
+                    datos.setearParametro("@idUsuario", idUsuario);
+                    datos.ejecutarAccion();
+                }
             }
             catch (Exception ex)
             {

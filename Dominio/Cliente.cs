@@ -14,6 +14,6 @@ namespace Dominio
         public string Nombre { get; set; }
         public string Apellido { get; set; }
         public string Email { get; set; }
-        public List<Direccion> Direccion { get; set; }
+        public Direccion Direccion { get; set; }
     }
 }

@@ -55,7 +55,17 @@ namespace TPC_PROG_III
                 return;
             }
 
-            Usuario nuevo = new Usuario(email, password, TipoUsuario.CLIENTE); 
+            Usuario nuevo = new Usuario(email, password, TipoUsuario.CLIENTE);
+
+            nuevo.Cliente = new Dominio.Cliente
+            {
+                Nombre = nombre,
+                Apellido = "",
+                Documento = 0,
+                Email = email,
+                Direccion = null
+            };
+
             negocio.Registrar(nuevo);
 
             Response.Redirect("/usuario/IniciarSesion.aspx");

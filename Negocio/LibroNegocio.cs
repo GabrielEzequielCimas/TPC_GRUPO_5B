@@ -357,5 +357,71 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        public Libro ObtenerPorId(int id)
+        {
+            ConexionDB datos = new ConexionDB();
+            try
+            {
+                datos.setearConsulta(@"SELECT L.Id, L.Codigo, L.Titulo, L.Descripcion, L.UrlImagen, L.Paginas, L.Stock, L.Precio, S.Id AS IdSubGenero, S.Descripcion AS SubGeneroDescripcion, G.Id AS IdGenero, G.Descripcion AS GeneroDescripcion, E.Id AS IdEditorial, E.Descripcion AS EditorialDescripcion FROM Libros L LEFT JOIN SubGeneros S ON L.IdSubGenero = S.Id LEFT JOIN Generos G ON S.IdGenero = G.Id LEFT JOIN Editoriales E ON L.IdEditorial = E.Id WHERE L.Id = @Id");
+                datos.setearParametro("@Id", id);
+                datos.ejecutarLectura();
+
+                Libro libro = null;
+
+                if (datos.Lector.Read())
+                {
+                    libro = new Libro
+                    {
+                        Id = (int)datos.Lector["Id"],
+                        Codigo = datos.Lector["Codigo"].ToString(),
+                        Titulo = datos.Lector["Titulo"].ToString(),
+                        Descripcion = datos.Lector["Descripcion"].ToString(),
+                        Imagen = datos.Lector["UrlImagen"].ToString(),
+                        Paginas = datos.Lector["Paginas"] != DBNull.Value ? (int)datos.Lector["Paginas"] : 0,
+                        Stock = datos.Lector["Stock"] != DBNull.Value ? (int)datos.Lector["Stock"] : 0,
+                        Precio = datos.Lector["Precio"] != DBNull.Value ? (decimal)datos.Lector["Precio"] : 0,
+                        Genero = new Genero
+                        {
+                            Id = datos.Lector["IdGenero"] != DBNull.Value ? (int)datos.Lector["IdGenero"] : 0,
+                            IdSubgenero = datos.Lector["IdSubGenero"] != DBNull.Value ? (int)datos.Lector["IdSubGenero"] : 0,
+                            DescripcionGenero = datos.Lector["GeneroDescripcion"] != DBNull.Value ? datos.Lector["GeneroDescripcion"].ToString() : "",
+                            DescripcionSubGenero = datos.Lector["SubGeneroDescripcion"] != DBNull.Value ? datos.Lector["SubGeneroDescripcion"].ToString() : ""
+                        },
+                        Editorial = new Editorial
+                        {
+                            Id = datos.Lector["IdEditorial"] != DBNull.Value ? (int)datos.Lector["IdEditorial"] : 0,
+                            Descripcion = datos.Lector["EditorialDescripcion"] != DBNull.Value ? datos.Lector["EditorialDescripcion"].ToString() : ""
+                        },
+                        Autores = new List<Autor>() 
+                    };
+                }
+
+                datos.cerrarConexion();
+
+                // Cargar autores si hay libro
+                if (libro != null)
+                {
+                    datos.setearConsulta(@"SELECT A.Id, A.Nombre FROM Autores A INNER JOIN AutoresLibro AL ON A.Id = AL.IdAutor WHERE AL.IdLibro = @Id");
+                    datos.setearParametro("@Id", id);
+                    datos.ejecutarLectura();
+
+                    while (datos.Lector.Read())
+                    {
+                        libro.Autores.Add(new Autor
+                        {
+                            Id = (int)datos.Lector["Id"],
+                            Nombre = datos.Lector["Nombre"].ToString()
+                        });
+                    }
+                }
+
+                return libro;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }

@@ -36,7 +36,7 @@ namespace TPC_PROG_III
             }
 
             LibroNegocio negocio = new LibroNegocio();
-            Libro libro = negocio.Listar().FirstOrDefault(l => l.Id == LibroId);
+            Libro libro = negocio.ObtenerPorId(LibroId);
 
             if (libro != null)
             {
@@ -58,7 +58,7 @@ namespace TPC_PROG_III
                 return;
 
             LibroNegocio negocio = new LibroNegocio();
-            Libro libro = negocio.Listar().FirstOrDefault(l => l.Id == LibroId);
+            Libro libro = negocio.ObtenerPorId(LibroId);
             if (libro == null)
                 return;
 
