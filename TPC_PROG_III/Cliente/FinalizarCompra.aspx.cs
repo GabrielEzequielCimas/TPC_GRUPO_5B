@@ -48,6 +48,11 @@ namespace TPC_PROG_III.Cliente
                 lblMensaje.Text = "El documento debe ser un número válido.";
                 return;
             }
+            if (documento <= 0 || txtDocumento.Text.Length < 8)
+            {
+                lblMensaje.Text = "El documento debe tener al menos 8 dígitos y ser positivo.";
+                return;
+            }
 
             // Guardar en BD: Crea una nueva Venta y sus Detalles
             VentaNegocio negocio = new VentaNegocio();

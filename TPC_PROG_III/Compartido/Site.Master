@@ -62,9 +62,9 @@
                                 if (usuario.TipoUsuario == Dominio.TipoUsuario.ADMIN)
                                 { 
                         %>
-                            <li class="nav-item">
-                                <a class="nav-link" href="<%= ResolveUrl("~/Admin/InicioAdmin") %>">Inicio</a>
-                            </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="<%= ResolveUrl("~/Admin/InicioAdmin") %>">Inicio</a>
+                                </li>
                         <% 
                             } 
                         %>
