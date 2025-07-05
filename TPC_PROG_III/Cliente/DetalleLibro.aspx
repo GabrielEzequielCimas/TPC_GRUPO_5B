@@ -4,6 +4,7 @@
     <asp:Label ID="lblTitulo" runat="server" CssClass="h3" />
     <br />
     <asp:Label ID="lblGenero" runat="server" CssClass="badge bg-secondary" />
+    <asp:Label ID="lblSubGenero" runat="server" CssClass="badge bg-secondary" />
     <br />
     <asp:Image ID="imgLibro" runat="server" Width="200" />
     <br />
