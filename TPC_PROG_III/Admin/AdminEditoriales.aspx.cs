@@ -21,6 +21,21 @@ namespace TPC_PROG_III
         }
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["Usuario"] == null)
+            {
+                Response.Redirect("~/usuario/IniciarSesion.aspx");
+                return;
+            }
+
+            Usuario usuario = (Usuario)Session["Usuario"];
+
+            // Validar si es ADMIN
+            if (usuario.TipoUsuario != TipoUsuario.ADMIN)
+            {
+                Response.Redirect("/Cliente/Default.aspx");
+                return;
+            }
+
             if (!IsPostBack)
             {
                 EditorialNegocio Negocio = new EditorialNegocio();

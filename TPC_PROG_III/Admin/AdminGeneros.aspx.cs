@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Dominio;
+using Negocio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using Negocio;
 
 namespace TPC_PROG_III
 {
@@ -20,6 +21,21 @@ namespace TPC_PROG_III
         }
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["Usuario"] == null)
+            {
+                Response.Redirect("~/usuario/IniciarSesion.aspx");
+                return;
+            }
+
+            Usuario usuario = (Usuario)Session["Usuario"];
+
+            // Validar si es ADMIN
+            if (usuario.TipoUsuario != TipoUsuario.ADMIN)
+            {
+                Response.Redirect("/Cliente/Default.aspx");
+                return;
+            }
+
             if (!IsPostBack)
             {
                 GeneroNegocio Negocio = new GeneroNegocio();

@@ -25,6 +25,21 @@ namespace TPC_PROG_III
         {
             if (!IsPostBack)
             {
+                if (Session["Usuario"] == null)
+                {
+                    Response.Redirect("~/usuario/IniciarSesion.aspx");
+                    return;
+                }
+
+                Usuario usuario = (Usuario)Session["Usuario"];
+
+                // Validar si es ADMIN
+                if (usuario.TipoUsuario != TipoUsuario.ADMIN)
+                {
+                    Response.Redirect("/Cliente/Default.aspx");
+                    return;
+                }
+
                 //DGV
                 LibroNegocio Negocio = new LibroNegocio();
                 EditorialNegocio Editorial = new EditorialNegocio();
