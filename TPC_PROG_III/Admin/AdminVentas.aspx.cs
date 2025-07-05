@@ -42,6 +42,8 @@ namespace TPC_PROG_III
         protected void dgvVentas_SelectedIndexChanged(object sender, EventArgs e)
         {
             int idVenta = Convert.ToInt32(dgvVentas.SelectedRow.Cells[0].Text);
+            string factura = dgvVentas.SelectedRow.Cells[2].Text;
+            lblSeleccion.Text = "Venta seleccionada: " + factura;
             CargarDetalle(idVenta);
         }
 
@@ -50,6 +52,25 @@ namespace TPC_PROG_III
             VentaNegocio negocio = new VentaNegocio();
             dgvDetalle.DataSource = negocio.ListarDetalleVenta(idVenta);
             dgvDetalle.DataBind();
+        }
+
+        protected void btnCambiarEstado_Click(object sender, EventArgs e)
+        {
+            if (dgvVentas.SelectedIndex == -1)
+            {
+                lblMensaje.Text = "Debe seleccionar una venta.";
+                return;
+            }
+
+            int idVenta = Convert.ToInt32(dgvVentas.SelectedRow.Cells[0].Text);
+            string nuevoEstado = ddlEstados.SelectedValue;
+
+            VentaNegocio negocio = new VentaNegocio();
+            negocio.CambiarEstado(idVenta, nuevoEstado);
+
+            lblMensaje.Text = "Estado actualizado correctamente.";
+
+            CargarVentas();
         }
     }
 }

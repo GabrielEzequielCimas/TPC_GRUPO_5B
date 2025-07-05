@@ -18,9 +18,11 @@ namespace Negocio
             ConexionDB datos = new ConexionDB();
             try
             {
-                datos.setearConsulta("INSERT INTO Ventas (Fecha, IdCliente, NumeroFactura) OUTPUT INSERTED.ID VALUES (GETDATE(), @IdCliente, @NumeroFactura)");
+                datos.setearConsulta("INSERT INTO Ventas (Fecha, IdCliente, NumeroFactura, DireccionEntrega, Estado) OUTPUT INSERTED.ID VALUES (GETDATE(), @IdCliente, @NumeroFactura, @DireccionEntrega, @Estado)");
                 datos.setearParametro("@IdCliente", idCliente);
                 datos.setearParametro("@NumeroFactura", generarNumeroFactura());
+                datos.setearParametro("@DireccionEntrega", direccion);
+                datos.setearParametro("@Estado", "Pendiente");
 
                 int idVenta = (int)datos.ejecutarScalar();
 
@@ -147,7 +149,7 @@ namespace Negocio
             ConexionDB datos = new ConexionDB();
             try
             {
-                datos.setearConsulta(@"SELECT v.Id, v.Fecha, v.NumeroFactura, c.Nombre, c.Apellido, c.Email FROM Ventas v INNER JOIN Clientes c ON v.IdCliente = c.Id ORDER BY v.Fecha DESC");
+                datos.setearConsulta(@"SELECT v.Id, v.Fecha, v.NumeroFactura, v.DireccionEntrega, v.Estado, c.Nombre, c.Apellido, c.Email FROM Ventas v INNER JOIN Clientes c ON v.IdCliente = c.Id ORDER BY v.Fecha DESC");
                 datos.ejecutarLectura();
                 while (datos.Lector.Read())
                 {
@@ -156,6 +158,8 @@ namespace Negocio
                         Id = (int)datos.Lector["Id"],
                         Fecha = (DateTime)datos.Lector["Fecha"],
                         NumeroFactura = datos.Lector["NumeroFactura"].ToString(),
+                        DireccionEntrega = datos.Lector["DireccionEntrega"].ToString(),
+                        Estado = datos.Lector["Estado"].ToString(),
                         Cliente = new Cliente
                         {
                             Nombre = datos.Lector["Nombre"].ToString(),
@@ -172,6 +176,23 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        public void CambiarEstado(int idVenta, string nuevoEstado)
+        {
+            ConexionDB datos = new ConexionDB();
+            try
+            {
+                datos.setearConsulta("UPDATE Ventas SET Estado = @Estado WHERE Id = @IdVenta");
+                datos.setearParametro("@Estado", nuevoEstado);
+                datos.setearParametro("@IdVenta", idVenta);
+                datos.ejecutarAccion();
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
         public List<DetalleVenta> ListarDetalleVenta(int idVenta)
         {
             List<DetalleVenta> lista = new List<DetalleVenta>();
