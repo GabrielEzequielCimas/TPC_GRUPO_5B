@@ -17,7 +17,7 @@ namespace TPC_PROG_III
                 // Validar usuario logueado
                 if (Session["Usuario"] == null)
                 {
-                    Response.Redirect("~/usuario/IniciarSesion.aspx");
+                    Response.Redirect("/Usuario/IniciarSesion.aspx");
                     return;
                 }
 

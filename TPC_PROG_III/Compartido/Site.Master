@@ -53,7 +53,7 @@
                             { 
                         %>
                             <li class="nav-item">
-                                <a class="nav-link" href="<%= ResolveUrl("~/cliente/Default") %>">Inicio</a>
+                                <a class="nav-link" href="<%= ResolveUrl("/Cliente/Default") %>">Inicio</a>
                             </li>
                          <%
                             }
@@ -63,7 +63,7 @@
                                         {
                         %>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="<%= ResolveUrl("~/Admin/InicioAdmin") %>">Inicio</a>
+                                            <a class="nav-link" href="<%= ResolveUrl("/Admin/InicioAdmin") %>">Inicio</a>
                                         </li>
                         <%
                                         }
@@ -71,7 +71,7 @@
                                         {
                         %>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="<%= ResolveUrl("~/cliente/Default") %>">Inicio</a>
+                                            <a class="nav-link" href="<%= ResolveUrl("/Cliente/Default") %>">Inicio</a>
                                         </li>
                         <%
                                         } 
@@ -81,22 +81,28 @@
                         %>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="<%= ResolveUrl("~/cliente/Catalogo") %>">Catálogo</a>
+                            <a class="nav-link" href="<%= ResolveUrl("/Cliente/Catalogo") %>">Catálogo</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="<%= ResolveUrl("~/cliente/Carrito") %>">Carrito</a>
+                            <a class="nav-link" href="<%= ResolveUrl("/Cliente/Carrito") %>">Carrito</a>
                         </li>
+
+                        <% if (usuario != null && usuario.TipoUsuario == Dominio.TipoUsuario.CLIENTE) { %>
+                            <li class="nav-item">
+                                <a class="nav-link" href="<%= ResolveUrl("/Usuario/MisCompras.aspx") %>">Mis Compras</a>
+                            </li>
+                        <% } %>
 
                         <% if (usuario == null) { %>
                             <li class="nav-item ms-auto">
-                                <a class="nav-link" href="<%= ResolveUrl("~/usuario/IniciarSesion.aspx") %>">Iniciar Sesión</a>
+                                <a class="nav-link" href="<%= ResolveUrl("/Usuario/IniciarSesion.aspx") %>">Iniciar Sesión</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="<%= ResolveUrl("~/usuario/Registrarse.aspx") %>">Registrarse</a>
+                                <a class="nav-link" href="<%= ResolveUrl("/Usuario/Registrarse.aspx") %>">Registrarse</a>
                             </li>
                         <% } else { %>
                             <li class="nav-item">
-                                <a class="nav-link" href="<%= ResolveUrl("~/usuario/CerrarSesion.aspx") %>">Cerrar Sesión</a>
+                                <a class="nav-link" href="<%= ResolveUrl("/Usuario/CerrarSesion.aspx") %>">Cerrar Sesión</a>
                             </li>
                             <li class="nav-item ms-auto">
                                 <span class="navbar-text text-light">Bienvenido, <%= usuario.User %></span>

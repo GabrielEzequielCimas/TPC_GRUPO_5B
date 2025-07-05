@@ -23,7 +23,7 @@ namespace TPC_PROG_III
         {
             if (Session["Usuario"] == null)
             {
-                Response.Redirect("~/usuario/IniciarSesion.aspx");
+                Response.Redirect("/Usuario/IniciarSesion.aspx");
                 return;
             }
 
