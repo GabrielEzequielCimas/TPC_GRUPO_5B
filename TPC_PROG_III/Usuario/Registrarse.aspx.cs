@@ -61,7 +61,7 @@ namespace TPC_PROG_III
             {
                 Nombre = nombre,
                 Apellido = "",
-                Documento = 0,
+                Documento = null,
                 Email = email,
                 Direccion = null
             };

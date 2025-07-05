@@ -101,7 +101,7 @@ namespace Negocio
                 if (nuevo.Cliente != null)
                 {
                     datos.setearConsulta(@"INSERT INTO Clientes (Documento, Nombre, Apellido, Email) VALUES (@documento, @nombre, @apellido, @email); SELECT SCOPE_IDENTITY();");
-                    datos.setearParametro("@documento", nuevo.Cliente.Documento);
+                    datos.setearParametro("@documento", nuevo.Cliente.Documento.HasValue ? (object)nuevo.Cliente.Documento.Value : DBNull.Value);
                     datos.setearParametro("@nombre", nuevo.Cliente.Nombre ?? "");
                     datos.setearParametro("@apellido", nuevo.Cliente.Apellido ?? "");
                     datos.setearParametro("@email", nuevo.Cliente.Email ?? "");
