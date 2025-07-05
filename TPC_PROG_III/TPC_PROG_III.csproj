@@ -110,6 +110,7 @@
     <Content Include="Cliente\Carrito.aspx" />
     <Content Include="Usuario\CerrarSesion.aspx" />
     <Content Include="Usuario\IniciarSesion.aspx" />
+    <Content Include="Usuario\MisCompras.aspx" />
     <Content Include="Usuario\Registrarse.aspx" />
     <Content Include="Cliente\Catalogo.aspx" />
     <Content Include="Cliente\FinalizarCompra.aspx" />
@@ -288,6 +289,13 @@
     </Compile>
     <Compile Include="Usuario\IniciarSesion.aspx.designer.cs">
       <DependentUpon>IniciarSesion.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario\MisCompras.aspx.cs">
+      <DependentUpon>MisCompras.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Usuario\MisCompras.aspx.designer.cs">
+      <DependentUpon>MisCompras.aspx</DependentUpon>
     </Compile>
     <Compile Include="Usuario\Registrarse.aspx.cs">
       <DependentUpon>Registrarse.aspx</DependentUpon>

@@ -14,5 +14,6 @@ namespace Dominio
         public string DireccionEntrega { get; set; }
         public string Estado { get; set; }
         public Cliente Cliente { get; set; }
+        public List<DetalleVenta> Detalles { get; set; }
     }
 }

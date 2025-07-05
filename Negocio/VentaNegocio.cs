@@ -223,5 +223,38 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        public List<Venta> ListarVentasPorCliente(int idCliente)
+        {
+            List<Venta> lista = new List<Venta>();
+            ConexionDB datos = new ConexionDB();
+
+            try
+            {
+                datos.setearConsulta(@"SELECT V.Id, V.Fecha, V.NumeroFactura, V.Estado, V.DireccionEntrega FROM Ventas V WHERE V.IdCliente = @idCliente ORDER BY V.Fecha DESC");
+                datos.setearParametro("@idCliente", idCliente);
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    var venta = new Venta
+                    {
+                        Id = (int)datos.Lector["Id"],
+                        Fecha = (DateTime)datos.Lector["Fecha"],
+                        NumeroFactura = datos.Lector["NumeroFactura"].ToString(),
+                        Estado = datos.Lector["Estado"].ToString(),
+                        DireccionEntrega = datos.Lector["DireccionEntrega"] != DBNull.Value ? datos.Lector["DireccionEntrega"].ToString() : ""
+                    };
+                    lista.Add(venta);
+                }
+                return lista;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+
     }
 }
