@@ -93,6 +93,16 @@ namespace Negocio
                 datos.setearParametro("@Apellido", apellido);
                 datos.setearParametro("@Email", email);
                 datos.setearParametro("@Documento", documento);
+
+                if (documento == 0)
+                {
+                    datos.setearParametro("@Documento", DBNull.Value);
+                }
+                else
+                {
+                    datos.setearParametro("@Documento", documento);
+                }
+
                 int nuevoId = (int)datos.ejecutarScalar();
                 return nuevoId;
             }
