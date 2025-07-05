@@ -101,6 +101,7 @@
     <Content Include="Admin\AdminAutores.aspx" />
     <Content Include="Admin\AdminGeneros.aspx" />
     <Content Include="Admin\AdminEditoriales.aspx" />
+    <Content Include="Admin\AdminVentas.aspx" />
     <Content Include="Admin\AdminLibros.aspx" />
     <Content Include="Admin\InicioAdmin.aspx" />
     <Content Include="Cliente\ConfirmacionCompra.aspx" />
@@ -221,6 +222,13 @@
     </Compile>
     <Compile Include="Admin\AdminEditoriales.aspx.designer.cs">
       <DependentUpon>AdminEditoriales.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\AdminVentas.aspx.cs">
+      <DependentUpon>AdminVentas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\AdminVentas.aspx.designer.cs">
+      <DependentUpon>AdminVentas.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\AdminLibros.aspx.cs">
       <DependentUpon>AdminLibros.aspx</DependentUpon>

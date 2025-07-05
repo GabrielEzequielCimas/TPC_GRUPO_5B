@@ -130,5 +130,67 @@ namespace Negocio
         {
             return "FAC-" + DateTime.Now.ToString("yyyyMMddHHmmss");
         }
+
+        public List<Venta> ListarVentas()
+        {
+            List<Venta> lista = new List<Venta>();
+            ConexionDB datos = new ConexionDB();
+            try
+            {
+                datos.setearConsulta(@"SELECT v.Id, v.Fecha, v.NumeroFactura, c.Nombre, c.Apellido, c.Email FROM Ventas v INNER JOIN Clientes c ON v.IdCliente = c.Id ORDER BY v.Fecha DESC");
+                datos.ejecutarLectura();
+                while (datos.Lector.Read())
+                {
+                    Venta v = new Venta
+                    {
+                        Id = (int)datos.Lector["Id"],
+                        Fecha = (DateTime)datos.Lector["Fecha"],
+                        NumeroFactura = datos.Lector["NumeroFactura"].ToString(),
+                        Cliente = new Cliente
+                        {
+                            Nombre = datos.Lector["Nombre"].ToString(),
+                            Apellido = datos.Lector["Apellido"].ToString(),
+                            Email = datos.Lector["Email"].ToString()
+                        }
+                    };
+                    lista.Add(v);
+                }
+                return lista;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+        public List<DetalleVenta> ListarDetalleVenta(int idVenta)
+        {
+            List<DetalleVenta> lista = new List<DetalleVenta>();
+            ConexionDB datos = new ConexionDB();
+            try
+            {
+                datos.setearConsulta(@"SELECT d.IdLibro, l.Titulo, d.Cantidad, d.Precio FROM DetalleVenta d INNER JOIN Libros l ON d.IdLibro = l.Id WHERE d.IdVenta = @IdVenta");
+                datos.setearParametro("@IdVenta", idVenta);
+                datos.ejecutarLectura();
+                while (datos.Lector.Read())
+                {
+                    DetalleVenta d = new DetalleVenta
+                    {
+                        Libro = new Libro
+                        {
+                            Id = (int)datos.Lector["IdLibro"],
+                            Titulo = datos.Lector["Titulo"].ToString()
+                        },
+                        Cantidad = (int)datos.Lector["Cantidad"],
+                        Precio = (decimal)datos.Lector["Precio"]
+                    };
+                    lista.Add(d);
+                }
+                return lista;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }

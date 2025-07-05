@@ -8,9 +8,9 @@ namespace Dominio
 {
     public class Venta
     {
-        public int IdCliente {  get; set; }
-        public Carrito Carrito { get; set; }
-        public DateTime FechaCompra { get; set; }
-        //
+        public int Id { get; set; }
+        public DateTime Fecha { get; set; }
+        public string NumeroFactura { get; set; }
+        public Cliente Cliente { get; set; }
     }
 }
