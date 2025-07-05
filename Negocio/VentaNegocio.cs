@@ -94,7 +94,6 @@ namespace Negocio
                 datos.setearParametro("@Nombre", nombre);
                 datos.setearParametro("@Apellido", apellido);
                 datos.setearParametro("@Email", email);
-                datos.setearParametro("@Documento", documento);
 
                 if (documento == 0)
                 {
