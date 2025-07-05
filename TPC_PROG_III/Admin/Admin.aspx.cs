@@ -43,5 +43,9 @@ namespace TPC_PROG_III
         {
             Response.Redirect("AdminLibros.aspx");
         }
+        protected void btnVentas_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("AdminVentas.aspx");
+        }
     }
 }

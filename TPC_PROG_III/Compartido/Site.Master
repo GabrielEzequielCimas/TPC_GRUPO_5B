@@ -47,21 +47,48 @@
                 </button>
                 <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/cliente/Default">Inicio</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/cliente/Catalogo">Catálogo</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/cliente/Carrito">Carrito</a></li>
-                        <% if (Session["usuario"] == null) { %>
-                            <li class="nav-item ms-auto">
-                                <a class="nav-link" href="/usuario/IniciarSesion.aspx">Iniciar Sesión</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/usuario/Registrarse.aspx">Registrarse</a>
-                            </li>
-                        <% } else { 
+                        <% 
                             var usuario = (Dominio.Usuario)Session["usuario"];
+                            if (usuario == null)
+                            { 
                         %>
                             <li class="nav-item">
-                                <a class="nav-link" href="/usuario/CerrarSesion.aspx">Cerrar Sesión</a>
+                                <a class="nav-link" href="<%= ResolveUrl("~/cliente/Default") %>">Inicio</a>
+                            </li>
+                        <% 
+                            }
+                            else 
+                            { 
+                                if (usuario.TipoUsuario == Dominio.TipoUsuario.ADMIN)
+                                { 
+                        %>
+                            <li class="nav-item">
+                                <a class="nav-link" href="<%= ResolveUrl("~/Admin/InicioAdmin") %>">Inicio</a>
+                            </li>
+                        <% 
+                            } 
+                        %>
+                        <% 
+                            } 
+                        %>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="<%= ResolveUrl("~/cliente/Catalogo") %>">Catálogo</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<%= ResolveUrl("~/cliente/Carrito") %>">Carrito</a>
+                        </li>
+
+                        <% if (usuario == null) { %>
+                            <li class="nav-item ms-auto">
+                                <a class="nav-link" href="<%= ResolveUrl("~/usuario/IniciarSesion.aspx") %>">Iniciar Sesión</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="<%= ResolveUrl("~/usuario/Registrarse.aspx") %>">Registrarse</a>
+                            </li>
+                        <% } else { %>
+                            <li class="nav-item">
+                                <a class="nav-link" href="<%= ResolveUrl("~/usuario/CerrarSesion.aspx") %>">Cerrar Sesión</a>
                             </li>
                             <li class="nav-item ms-auto">
                                 <span class="navbar-text text-light">Bienvenido, <%= usuario.User %></span>
