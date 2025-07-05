@@ -19,7 +19,7 @@ namespace Negocio
             try
             {
                 datos.setearConsulta("INSERT INTO Ventas (Fecha, IdCliente, NumeroFactura) OUTPUT INSERTED.ID VALUES (GETDATE(), @IdCliente, @NumeroFactura)");
-                datos.setearParametro("@IdCliente", idCliente); 
+                datos.setearParametro("@IdCliente", idCliente);
                 datos.setearParametro("@NumeroFactura", generarNumeroFactura());
 
                 int idVenta = (int)datos.ejecutarScalar();
@@ -31,6 +31,11 @@ namespace Negocio
                     datos.setearParametro("@IdLibro", item.Libro.Id);
                     datos.setearParametro("@Cantidad", item.Cantidad);
                     datos.setearParametro("@Precio", item.Libro.Precio);
+                    datos.ejecutarAccion();
+
+                    datos.setearConsulta("UPDATE Libros SET Stock = Stock - @Cantidad WHERE Id = @IdLibro");
+                    datos.setearParametro("@Cantidad", item.Cantidad);
+                    datos.setearParametro("@IdLibro", item.Libro.Id);
                     datos.ejecutarAccion();
                 }
 
@@ -45,6 +50,7 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
         public int obtenerIdCliente(string email, string nombre, string apellido, int documento)
         {
             ConexionDB datos = new ConexionDB();
