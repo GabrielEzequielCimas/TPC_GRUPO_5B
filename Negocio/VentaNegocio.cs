@@ -26,6 +26,12 @@ namespace Negocio
 
                 foreach (var item in carrito)
                 {
+                    int stockActual = ObtenerStock(item.Libro.Id);
+                    if (item.Cantidad > stockActual)
+                    {
+                        throw new Exception($"Stock insuficiente del libro '{item.Libro.Titulo}'. Disponible: {stockActual}, solicitado: {item.Cantidad}.");
+                    }
+
                     datos.setearConsulta("INSERT INTO DetalleVenta (IdVenta, IdLibro, Cantidad, Precio) VALUES (@IdVenta, @IdLibro, @Cantidad, @Precio)");
                     datos.setearParametro("@IdVenta", idVenta);
                     datos.setearParametro("@IdLibro", item.Libro.Id);
@@ -93,6 +99,26 @@ namespace Negocio
             catch (Exception ex)
             {
                 throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        private int ObtenerStock(int idLibro)
+        {
+            ConexionDB datos = new ConexionDB();
+            try
+            {
+                datos.setearConsulta("SELECT Stock FROM Libros WHERE Id = @Id");
+                datos.setearParametro("@Id", idLibro);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                    return (int)datos.Lector["Stock"];
+                else
+                    return 0;
             }
             finally
             {
