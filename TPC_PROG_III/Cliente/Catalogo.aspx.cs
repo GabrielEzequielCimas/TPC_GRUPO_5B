@@ -90,30 +90,21 @@ namespace TPC_PROG_III.Cliente
 
         protected void btnFiltrar_Click(object sender, EventArgs e)
         {
-            var libros = Session["Libros"] as List<Libro>;
-            var filtrados = libros;
+            LibroNegocio negocio = new LibroNegocio();
 
-            // Por nombre
-            if (!string.IsNullOrWhiteSpace(txtBusqueda.Text))
-                filtrados = filtrados.Where(l => l.Titulo.ToLower().Contains(txtBusqueda.Text.ToLower())).ToList();
+            string titulo = txtBusqueda.Text.Trim();
+            string autor = ddlAutor.SelectedValue;
+            string genero = ddlGenero.SelectedValue;
+            string ordenPrecio = ddlOrdenPrecio.SelectedValue;
 
-            // Por autor 
-            if (!string.IsNullOrEmpty(ddlAutor.SelectedValue))
-                filtrados = filtrados.Where(l => l.Autores.Any(a => a.Nombre == ddlAutor.SelectedValue)).ToList();
+            if (autor == "Filtrar por autor") autor = "";
+            if (genero == "Filtrar por género") genero = "";
 
-            // Por genero
-            if (!string.IsNullOrEmpty(ddlGenero.SelectedValue))
-                filtrados = filtrados.Where(l => l.Genero.DescripcionGenero == ddlGenero.SelectedValue).ToList();
-
-            // Ordenamiento
-            if (ddlOrdenPrecio.SelectedValue == "asc")
-                filtrados = filtrados.OrderBy(l => l.Precio).ToList();
-            else if (ddlOrdenPrecio.SelectedValue == "desc")
-                filtrados = filtrados.OrderByDescending(l => l.Precio).ToList();
+            var filtrados = negocio.ListarFiltrado(titulo, autor, genero, ordenPrecio);
 
             rptLibros.DataSource = filtrados;
             rptLibros.DataBind();
-        }   
+        }
 
         protected void rptLibros_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
@@ -122,6 +113,11 @@ namespace TPC_PROG_III.Cliente
                 int idLibro = Convert.ToInt32(e.CommandArgument);
                 Response.Redirect("DetalleLibro.aspx?id=" + idLibro);
             }
+        }
+
+        protected void btnLimpiarFiltros_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Catalogo.aspx");
         }
     }
 

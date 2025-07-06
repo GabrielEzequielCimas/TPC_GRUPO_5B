@@ -423,5 +423,90 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        public List<Libro> ListarFiltrado(string titulo, string autor, string genero, string ordenPrecio)
+        {
+            List<Libro> lista = new List<Libro>();
+            ConexionDB datos = new ConexionDB();
+
+            try
+            {
+                var query = new StringBuilder(@"SELECT a.Id AS IdLibro, Codigo, Titulo, A.Descripcion, E.Descripcion AS Editorial, IdEditorial, UrlImagen, Paginas, Stock, Precio, F.Id AS IdSubGenero, G.Id AS IdGenero, F.Descripcion AS DescripcionSubGenero, G.Descripcion AS DescripcionGenero FROM Libros A JOIN Editoriales E ON E.Id = A.IdEditorial JOIN SubGeneros F ON A.IdSubGenero = F.Id JOIN Generos G ON F.IdGenero = G.Id WHERE 1=1");
+
+                // Dinamismo
+                if (!string.IsNullOrEmpty(titulo))
+                    query.Append(" AND LOWER(Titulo) LIKE @Titulo");
+                if (!string.IsNullOrEmpty(genero))
+                    query.Append(" AND G.Descripcion = @Genero");
+
+                // Ordenamiento
+                if (ordenPrecio == "asc")
+                    query.Append(" ORDER BY Precio ASC");
+                else if (ordenPrecio == "desc")
+                    query.Append(" ORDER BY Precio DESC");
+                else
+                    query.Append(" ORDER BY Titulo ASC");
+
+                datos.setearConsulta(query.ToString());
+
+                // Parametros
+                if (!string.IsNullOrEmpty(titulo))
+                    datos.setearParametro("@Titulo", "%" + titulo.ToLower() + "%");
+                if (!string.IsNullOrEmpty(genero))
+                    datos.setearParametro("@Genero", genero);
+
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Libro aux = new Libro
+                    {
+                        Id = (int)datos.Lector["IdLibro"],
+                        Codigo = (string)datos.Lector["Codigo"],
+                        Titulo = (string)datos.Lector["Titulo"],
+                        Precio = (decimal)datos.Lector["Precio"],
+                        Descripcion = (string)datos.Lector["Descripcion"],
+                        Paginas = (int)datos.Lector["Paginas"],
+                        Stock = (int)datos.Lector["Stock"],
+                        Imagen = (string)datos.Lector["UrlImagen"],
+                        Editorial = new Editorial
+                        {
+                            Id = (int)datos.Lector["IdEditorial"],
+                            Descripcion = (string)datos.Lector["Editorial"]
+                        },
+                        Genero = new Genero
+                        {
+                            Id = (int)datos.Lector["IdGenero"],
+                            IdSubgenero = (int)datos.Lector["IdSubGenero"],
+                            DescripcionGenero = (string)datos.Lector["DescripcionGenero"],
+                            DescripcionSubGenero = (string)datos.Lector["DescripcionSubGenero"]
+                        }
+                    };
+
+                    AutorNegocio autorNeg = new AutorNegocio();
+                    aux.Autores = autorNeg.ListarAutores(aux.Id);
+
+                    // Filtro por autor
+                    if (!string.IsNullOrEmpty(autor))
+                    {
+                        if (!aux.Autores.Any(a => a.Nombre == autor))
+                            continue; // skip si no coincide autor
+                    }
+
+                    lista.Add(aux);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
     }
 }

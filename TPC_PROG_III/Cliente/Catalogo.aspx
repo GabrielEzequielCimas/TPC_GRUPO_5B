@@ -19,6 +19,7 @@
         </asp:DropDownList>
 
         <asp:Button ID="btnFiltrar" runat="server" Text="Aplicar Filtros" CssClass="btn btn-primary" OnClick="btnFiltrar_Click" />
+        <asp:Button ID="btnLimpiarFiltros" runat="server" Text="Limpiar filtros" OnClick="btnLimpiarFiltros_Click" CssClass="btn btn-secondary" />
     </div>
 
     <div class="catalogo-grid">
