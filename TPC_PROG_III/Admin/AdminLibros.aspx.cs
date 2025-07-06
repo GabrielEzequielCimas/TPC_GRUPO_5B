@@ -11,6 +11,7 @@ using Negocio;
 
 namespace TPC_PROG_III
 {
+    ///------------------------------------------------------------------------------------------------------FUNCIONES
     public partial class AdminLibros : Page
     {
         protected bool VerificarSeleccion()
@@ -21,73 +22,66 @@ namespace TPC_PROG_III
             }
             return false;
         }
-        protected void Page_Load(object sender, EventArgs e)
+        private void LimpiarCampos()
         {
-            if (!IsPostBack)
+            // Limpiar TextBox
+            txtCodigo.Text = "";
+            txtTitulo.Text = "";
+            txtDescripcion.Text = "";
+            txtPrecio.Text = "";
+            txtStock.Text = "";
+            txtPaginas.Text = "";
+            txtUrl.Text = "";
+
+            // Reiniciar DropDownList
+            ddlEditoriales.SelectedIndex = 0;
+            ddlGeneros.SelectedIndex = 0;
+            ddlSubGeneros.Items.Clear();
+            ddlSubGeneros.Items.Insert(0, new ListItem("Seleccionar SubGenero", ""));
+
+            // Deseleccionar autores
+            foreach (ListItem item in chkAutores.Items)
             {
-                if (Session["Usuario"] == null)
-                {
-                    Response.Redirect("/Usuario/IniciarSesion.aspx");
-                    return;
-                }
-
-                Usuario usuario = (Usuario)Session["Usuario"];
-
-                // Validar si es ADMIN
-                if (usuario.TipoUsuario != TipoUsuario.ADMIN)
-                {
-                    Response.Redirect("/Cliente/Default.aspx");
-                    return;
-                }
-
-                //DGV
-                LibroNegocio Negocio = new LibroNegocio();
-                EditorialNegocio Editorial = new EditorialNegocio();
-                GeneroNegocio Genero = new GeneroNegocio();
-                AutorNegocio Autor = new AutorNegocio();
-                dgvLibro.DataSource = Negocio.Listar();
-                dgvLibro.DataBind();
-                //DDL Editorial
-                ddlEditoriales.DataSource = Editorial.ListarEditorial();
-                ddlEditoriales.DataTextField = "Descripcion";       
-                ddlEditoriales.DataValueField = "Id"; 
-                ddlEditoriales.DataBind();
-                ddlEditoriales.Items.Insert(0, new ListItem("Seleccionar Editorial", ""));
-                //DDL Genero
-                ddlGeneros.DataSource = Genero.ListarGenero();
-                ddlGeneros.DataTextField = "DescripcionGenero";
-                ddlGeneros.DataValueField = "Id";
-                ddlGeneros.DataBind();
-                ddlGeneros.Items.Insert(0, new ListItem("Seleccionar Genero", ""));
-                //DDL SubGenero
-                ddlSubGeneros.DataSource = Genero.ListarSubGenero();
-                ddlSubGeneros.DataTextField = "DescripcionSubGenero";
-                ddlSubGeneros.DataValueField = "IdSubGenero";
-                ddlSubGeneros.DataBind();
-                ddlSubGeneros.Items.Insert(0, new ListItem("Seleccionar SubGenero", ""));
-                //DDL Autores
-                chkAutores.DataSource = Autor.ListarAutor();
-                chkAutores.DataTextField = "Nombre";
-                chkAutores.DataValueField = "Id";
-                chkAutores.DataBind();
-                //ddlCheckList.DataSource = Autor.ListarAutor();
-                //ddlCheckList.DataTextField = "Nombre";
-                //ddlCheckList.DataValueField = "Id";
-                //ddlCheckList.DataBind();
-                //ddlCheckList.Items.Insert(0, new ListItem("Seleccionar Autores", ""));
+                item.Selected = false;
             }
+
+            // Ocultar mensaje de error si estuviera visible
+            lblError.Visible = false;
         }
-        protected void dgvLibro_RowDataBound(object sender, GridViewRowEventArgs e)
+        protected void Cargar()
         {
-            if (e.Row.RowType == DataControlRowType.DataRow)
-            {
-                LinkButton lnkSelect = (LinkButton)e.Row.FindControl("lnkSelect");
-                e.Row.Attributes["onclick"] = ClientScript.GetPostBackEventReference(lnkSelect, "");
-                e.Row.Attributes["style"] = "cursor:pointer;";
-            }
+            //DGV
+            LibroNegocio Negocio = new LibroNegocio();
+            EditorialNegocio Editorial = new EditorialNegocio();
+            GeneroNegocio Genero = new GeneroNegocio();
+            AutorNegocio Autor = new AutorNegocio();
+            dgvLibro.DataSource = Negocio.Listar();
+            dgvLibro.DataBind();
+            //DDL Editorial
+            ddlEditoriales.DataSource = Editorial.ListarEditorial();
+            ddlEditoriales.DataTextField = "Descripcion";
+            ddlEditoriales.DataValueField = "Id";
+            ddlEditoriales.DataBind();
+            ddlEditoriales.Items.Insert(0, new ListItem("Seleccionar Editorial", ""));
+            //DDL Genero
+            ddlGeneros.DataSource = Genero.ListarGenero();
+            ddlGeneros.DataTextField = "DescripcionGenero";
+            ddlGeneros.DataValueField = "Id";
+            ddlGeneros.DataBind();
+            ddlGeneros.Items.Insert(0, new ListItem("Seleccionar Genero", ""));
+            //DDL SubGenero
+            ddlSubGeneros.DataSource = Genero.ListarSubGenero();
+            ddlSubGeneros.DataTextField = "DescripcionSubGenero";
+            ddlSubGeneros.DataValueField = "IdSubGenero";
+            ddlSubGeneros.DataBind();
+            ddlSubGeneros.Items.Insert(0, new ListItem("Seleccionar SubGenero", ""));
+            //DDL Autores
+            chkAutores.DataSource = Autor.ListarAutor();
+            chkAutores.DataTextField = "Nombre";
+            chkAutores.DataValueField = "Id";
+            chkAutores.DataBind();
         }
-
-        protected void dgvLibro_SelectedIndexChanged(object sender, EventArgs e)
+        protected void CargarObjetoPopUp()
         {
             Libro Seleccionado = new Libro();
             LibroNegocio Negocio = new LibroNegocio();
@@ -116,62 +110,6 @@ namespace TPC_PROG_III
                 if (item != null)
                     item.Selected = true;
             }
-        }
-        protected void btnBuscar_Click(object sender, EventArgs e)
-        {
-            string filtro = txtBuscar.Text.Trim().ToLower();
-            LibroNegocio Negocio = new LibroNegocio();
-            dgvLibro.DataSource = Negocio.Listar(filtro);
-            dgvLibro.DataBind();
-        }
-
-        protected void ddlGeneros_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string valorSeleccionado = ddlGeneros.SelectedValue;
-            if (!int.TryParse(valorSeleccionado, out int idSeleccionado))
-                return;
-            GeneroNegocio Genero = new GeneroNegocio();
-            List <Genero> Lista = Genero.ListarSubGenero();
-            var filtrado = Lista.Where(l => l.Id == idSeleccionado).ToList();
-            ddlSubGeneros.DataSource = filtrado;
-            ddlSubGeneros.DataTextField = "DescripcionSubGenero";
-            ddlSubGeneros.DataValueField = "IdSubGenero";
-            ddlSubGeneros.DataBind();
-            ddlSubGeneros.Items.Insert(0, new ListItem("Seleccionar SubGenero", ""));
-        }
-
-        protected void ddlSubGeneros_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string valorSeleccionado = ddlSubGeneros.SelectedValue;
-            if (!int.TryParse(valorSeleccionado, out int idSeleccionado))
-                return;
-            GeneroNegocio Genero = new GeneroNegocio();
-            List<Genero> Lista = Genero.ListarSubGenero();
-            var filtrado = Lista.Where(l => l.IdSubgenero == idSeleccionado).ToList();
-            int id = filtrado[0].Id;
-            ddlGeneros.SelectedValue = id.ToString();
-        }
-
-        protected void btnDesactivar_Click(object sender, EventArgs e)
-        {
-            if (VerificarSeleccion()) return;
-            GridViewRow fila = dgvLibro.SelectedRow;
-            LibroNegocio negocio = new LibroNegocio();
-            int id = Convert.ToInt32(fila.Cells[0].Text);
-            negocio.Desactivar(id);
-            dgvLibro.DataSource = negocio.Listar();
-            dgvLibro.DataBind();
-        }
-
-        protected void btnActivar_Click(object sender, EventArgs e)
-        {
-            if (VerificarSeleccion()) return;
-            GridViewRow fila = dgvLibro.SelectedRow;
-            LibroNegocio negocio = new LibroNegocio();
-            int id = Convert.ToInt32(fila.Cells[0].Text);
-            negocio.Activar(id);
-            dgvLibro.DataSource = negocio.Listar();
-            dgvLibro.DataBind();
         }
         protected Libro CargarObjeto()
         {
@@ -284,31 +222,120 @@ namespace TPC_PROG_III
             // Si pasa todas las validaciones
             return true;
         }
+        /// -------------------------------------------------------------------------------------------EVENTOS
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                if (Session["Usuario"] == null)
+                {
+                    Response.Redirect("/Usuario/IniciarSesion.aspx");
+                    return;
+                }
+
+                Usuario usuario = (Usuario)Session["Usuario"];
+
+                // Validar si es ADMIN
+                if (usuario.TipoUsuario != TipoUsuario.ADMIN)
+                {
+                    Response.Redirect("/Cliente/Default.aspx");
+                    return;
+                }
+                Cargar();
+            }
+        }
+        protected void dgvLibro_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                LinkButton lnkSelect = (LinkButton)e.Row.FindControl("lnkSelect");
+                e.Row.Attributes["onclick"] = ClientScript.GetPostBackEventReference(lnkSelect, "");
+                e.Row.Attributes["style"] = "cursor:pointer;";
+            }
+        }
+        
+
+        protected void btnBuscar_Click(object sender, EventArgs e)
+        {
+            string filtro = txtBuscar.Text.Trim().ToLower();
+            LibroNegocio Negocio = new LibroNegocio();
+            dgvLibro.DataSource = Negocio.Listar(filtro);
+            dgvLibro.DataBind();
+        }
+
+        protected void ddlGeneros_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string valorSeleccionado = ddlGeneros.SelectedValue;
+            if (!int.TryParse(valorSeleccionado, out int idSeleccionado))
+                return;
+            GeneroNegocio Genero = new GeneroNegocio();
+            List <Genero> Lista = Genero.ListarSubGenero();
+            var filtrado = Lista.Where(l => l.Id == idSeleccionado).ToList();
+            ddlSubGeneros.DataSource = filtrado;
+            ddlSubGeneros.DataTextField = "DescripcionSubGenero";
+            ddlSubGeneros.DataValueField = "IdSubGenero";
+            ddlSubGeneros.DataBind();
+            ddlSubGeneros.Items.Insert(0, new ListItem("Seleccionar SubGenero", ""));
+        }
+
+        protected void ddlSubGeneros_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string valorSeleccionado = ddlSubGeneros.SelectedValue;
+            if (!int.TryParse(valorSeleccionado, out int idSeleccionado))
+                return;
+            GeneroNegocio Genero = new GeneroNegocio();
+            List<Genero> Lista = Genero.ListarSubGenero();
+            var filtrado = Lista.Where(l => l.IdSubgenero == idSeleccionado).ToList();
+            int id = filtrado[0].Id;
+            ddlGeneros.SelectedValue = id.ToString();
+        }
+        
         protected void btnModificar_Click(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterStartupScript(this, GetType(), "abrirModal", "abrirModalLibro();", true);
+            CargarObjetoPopUp();
+        }
+        protected void btnAgregar_Click(object sender, EventArgs e)
+        {
+            ViewState["Accion"] = "Agregar";
+            LimpiarCampos();
+            ScriptManager.RegisterStartupScript(this, GetType(), "abrirModal", "abrirModalLibro();", true);
+
+        }
+        //protected void btnAgregar_Click(object sender, EventArgs e)
+        //{
+        //    ScriptManager.RegisterStartupScript(this, GetType(), "abrirModal", "abrirModalLibro();", true);
+        //    lblError.Visible = false;
+        //    if (!ValidarCampos(false))
+        //        return;
+        //    LibroNegocio negocio = new LibroNegocio();
+        //    Libro nuevo = CargarObjeto();
+        //    //negocio.Agregar(nuevo);
+        //    dgvLibro.DataSource = negocio.Listar();
+        //    dgvLibro.DataBind();
+        //}
+
+        protected void btnAceptar_Click(object sender, EventArgs e)
         {
             lblError.Visible = false;
             if (!ValidarCampos(true))
                 return;
             LibroNegocio negocio = new LibroNegocio();
-            Libro modificado = CargarObjeto();
-            modificado.Id = Convert.ToInt32(dgvLibro.SelectedRow.Cells[0].Text);
-            negocio.Modificar(modificado);
+            Libro libro = CargarObjeto();
+            libro.Id = Convert.ToInt32(dgvLibro.SelectedRow.Cells[0].Text);
+            //negocio.Modificar(modificado);
             dgvLibro.DataSource = negocio.Listar();
             dgvLibro.DataBind();
         }
-
-        protected void btnAgregar_Click(object sender, EventArgs e)
+        protected void btnCancelar_Click(object sender, EventArgs e)
         {
-            lblError.Visible = false;
-            if (!ValidarCampos(false))
-                return;
-            LibroNegocio negocio = new LibroNegocio();
-            Libro nuevo = CargarObjeto();
-            negocio.Agregar(nuevo);
-            dgvLibro.DataSource = negocio.Listar();
-            dgvLibro.DataBind();
+            return;
         }
         
+        protected void btnEstado_Click(object sender, EventArgs e)
+        {
 
+        }
+        
     }
 }

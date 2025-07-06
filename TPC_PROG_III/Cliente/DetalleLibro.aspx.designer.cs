@@ -33,15 +33,6 @@ namespace TPC_PROG_III
         protected global::System.Web.UI.WebControls.Label lblGenero;
 
         /// <summary>
-        /// Control lblSubGenero.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblSubGenero;
-
-        /// <summary>
         /// Control imgLibro.
         /// </summary>
         /// <remarks>
