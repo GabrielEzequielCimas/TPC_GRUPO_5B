@@ -507,6 +507,13 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+        public void CambioEstado(int id)
+        {
+            ConexionDB datos = new ConexionDB();
+            datos.setearConsulta("UPDATE Libros SET DeletedAt = CASE WHEN DeletedAt IS NULL THEN GETDATE() ELSE NULL END WHERE Id = @IdLibro;");
+            datos.setearParametro("@IdLibro", id);
+            datos.ejecutarAccion();
+        }
 
     }
 }

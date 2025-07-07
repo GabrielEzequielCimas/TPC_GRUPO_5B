@@ -70,11 +70,13 @@ namespace TPC_PROG_III
             ddlGeneros.DataBind();
             ddlGeneros.Items.Insert(0, new ListItem("Seleccionar Genero", ""));
             //DDL SubGenero
-            ddlSubGeneros.DataSource = Genero.ListarSubGenero();
-            ddlSubGeneros.DataTextField = "DescripcionSubGenero";
-            ddlSubGeneros.DataValueField = "IdSubGenero";
-            ddlSubGeneros.DataBind();
+            ddlSubGeneros.Items.Clear();
             ddlSubGeneros.Items.Insert(0, new ListItem("Seleccionar SubGenero", ""));
+            //ddlSubGeneros.DataSource = Genero.ListarSubGenero();
+            //ddlSubGeneros.DataTextField = "DescripcionSubGenero";
+            //ddlSubGeneros.DataValueField = "IdSubGenero";
+            //ddlSubGeneros.DataBind();
+            //ddlSubGeneros.Items.Insert(0, new ListItem("Seleccionar SubGenero", ""));
             //DDL Autores
             chkAutores.DataSource = Autor.ListarAutor();
             chkAutores.DataTextField = "Nombre";
@@ -83,6 +85,10 @@ namespace TPC_PROG_III
         }
         protected void CargarObjetoPopUp()
         {
+            if (VerificarSeleccion())
+            {
+                return;
+            }
             Libro Seleccionado = new Libro();
             LibroNegocio Negocio = new LibroNegocio();
             GridViewRow selectedRow = dgvLibro.SelectedRow;
@@ -99,6 +105,19 @@ namespace TPC_PROG_III
             txtDescripcion.Text = Seleccionado.Descripcion;
             ddlEditoriales.SelectedValue = Seleccionado.Editorial.Id.ToString();
             ddlGeneros.SelectedValue = Seleccionado.Genero.Id.ToString();
+            //
+
+            // Cargar subgéneros de ese género
+            GeneroNegocio generoNegocio = new GeneroNegocio();
+            List<Genero> subgeneros = generoNegocio.ListarSubGenero();
+            var subgenerosDelGenero = subgeneros.Where(s => s.Id == Seleccionado.Genero.Id).ToList();
+
+            ddlSubGeneros.DataSource = subgenerosDelGenero;
+            ddlSubGeneros.DataTextField = "DescripcionSubGenero";
+            ddlSubGeneros.DataValueField = "IdSubGenero";
+            ddlSubGeneros.DataBind();
+            ddlSubGeneros.Items.Insert(0, new ListItem("Seleccionar SubGenero", ""));
+            //
             ddlSubGeneros.SelectedValue = Seleccionado.Genero.IdSubgenero.ToString();
             // Cargar autores seleccionados
             foreach (ListItem item in chkAutores.Items)
@@ -292,8 +311,13 @@ namespace TPC_PROG_III
         
         protected void btnModificar_Click(object sender, EventArgs e)
         {
-            ScriptManager.RegisterStartupScript(this, GetType(), "abrirModal", "abrirModalLibro();", true);
+            if (VerificarSeleccion())
+            {
+                return;
+            }
+            ViewState["Accion"] = "Modificar";
             CargarObjetoPopUp();
+            ScriptManager.RegisterStartupScript(this, GetType(), "abrirModal", "abrirModalLibro();", true);
         }
         protected void btnAgregar_Click(object sender, EventArgs e)
         {
@@ -302,30 +326,34 @@ namespace TPC_PROG_III
             ScriptManager.RegisterStartupScript(this, GetType(), "abrirModal", "abrirModalLibro();", true);
 
         }
-        //protected void btnAgregar_Click(object sender, EventArgs e)
-        //{
-        //    ScriptManager.RegisterStartupScript(this, GetType(), "abrirModal", "abrirModalLibro();", true);
-        //    lblError.Visible = false;
-        //    if (!ValidarCampos(false))
-        //        return;
-        //    LibroNegocio negocio = new LibroNegocio();
-        //    Libro nuevo = CargarObjeto();
-        //    //negocio.Agregar(nuevo);
-        //    dgvLibro.DataSource = negocio.Listar();
-        //    dgvLibro.DataBind();
-        //}
+
 
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
-            lblError.Visible = false;
-            if (!ValidarCampos(true))
-                return;
-            LibroNegocio negocio = new LibroNegocio();
-            Libro libro = CargarObjeto();
-            libro.Id = Convert.ToInt32(dgvLibro.SelectedRow.Cells[0].Text);
-            //negocio.Modificar(modificado);
-            dgvLibro.DataSource = negocio.Listar();
-            dgvLibro.DataBind();
+            string accion = ViewState["Accion"] as string;
+            if (accion == "Modificar")
+            {
+                lblError.Visible = false;
+                if (!ValidarCampos(true))
+                    return;
+                LibroNegocio negocio = new LibroNegocio();
+                Libro libro = CargarObjeto();
+                libro.Id = Convert.ToInt32(dgvLibro.SelectedRow.Cells[0].Text);
+                negocio.Modificar(libro);
+                dgvLibro.DataSource = negocio.Listar();
+                dgvLibro.DataBind();
+            }
+            else
+            {
+                lblError.Visible = false;
+                if (!ValidarCampos(false))
+                    return;
+                LibroNegocio negocio = new LibroNegocio();
+                Libro nuevo = CargarObjeto();
+                negocio.Agregar(nuevo);
+                dgvLibro.DataSource = negocio.Listar();
+                dgvLibro.DataBind();
+            }
         }
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
@@ -334,7 +362,15 @@ namespace TPC_PROG_III
         
         protected void btnEstado_Click(object sender, EventArgs e)
         {
-
+            int Id = 0;
+            LibroNegocio libro = new LibroNegocio();
+            if (!VerificarSeleccion())
+            {
+                Id = Convert.ToInt32(dgvLibro.SelectedRow.Cells[0].Text);
+                libro.CambioEstado(Id);
+                dgvLibro.DataSource = libro.Listar();
+                dgvLibro.DataBind();
+            }
         }
         
     }
