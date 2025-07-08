@@ -66,16 +66,13 @@
                         </div>
                     </div>
 
-                    <!-- Editorial, Género, Subgénero -->
+                    <!-- Editorial y Género -->
                     <div class="row mb-3">
-                        <div class="col-4 px-1">
+                        <div class="col-6 px-1">
                             <asp:DropDownList ID="ddlEditoriales" runat="server" CssClass="form-control" />
                         </div>
-                        <div class="col-4 px-1">
-                            <asp:DropDownList ID="ddlGeneros" runat="server" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="ddlGeneros_SelectedIndexChanged" />
-                        </div>
-                        <div class="col-4 px-1">
-                            <asp:DropDownList ID="ddlSubGeneros" runat="server" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="ddlSubGeneros_SelectedIndexChanged" />
+                        <div class="col-6 px-1">
+                            <asp:DropDownList ID="ddlGeneros" runat="server" CssClass="form-control" />
                         </div>
                     </div>
 

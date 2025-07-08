@@ -36,8 +36,6 @@ namespace TPC_PROG_III
             // Reiniciar DropDownList
             ddlEditoriales.SelectedIndex = 0;
             ddlGeneros.SelectedIndex = 0;
-            ddlSubGeneros.Items.Clear();
-            ddlSubGeneros.Items.Insert(0, new ListItem("Seleccionar SubGenero", ""));
 
             // Deseleccionar autores
             foreach (ListItem item in chkAutores.Items)
@@ -69,9 +67,6 @@ namespace TPC_PROG_III
             ddlGeneros.DataValueField = "Id";
             ddlGeneros.DataBind();
             ddlGeneros.Items.Insert(0, new ListItem("Seleccionar Genero", ""));
-            //DDL SubGenero
-            ddlSubGeneros.Items.Clear();
-            ddlSubGeneros.Items.Insert(0, new ListItem("Seleccionar SubGenero", ""));
             //ddlSubGeneros.DataSource = Genero.ListarSubGenero();
             //ddlSubGeneros.DataTextField = "DescripcionSubGenero";
             //ddlSubGeneros.DataValueField = "IdSubGenero";
@@ -105,20 +100,6 @@ namespace TPC_PROG_III
             txtDescripcion.Text = Seleccionado.Descripcion;
             ddlEditoriales.SelectedValue = Seleccionado.Editorial.Id.ToString();
             ddlGeneros.SelectedValue = Seleccionado.Genero.Id.ToString();
-            //
-
-            // Cargar subgéneros de ese género
-            GeneroNegocio generoNegocio = new GeneroNegocio();
-            List<Genero> subgeneros = generoNegocio.ListarSubGenero();
-            var subgenerosDelGenero = subgeneros.Where(s => s.Id == Seleccionado.Genero.Id).ToList();
-
-            ddlSubGeneros.DataSource = subgenerosDelGenero;
-            ddlSubGeneros.DataTextField = "DescripcionSubGenero";
-            ddlSubGeneros.DataValueField = "IdSubGenero";
-            ddlSubGeneros.DataBind();
-            ddlSubGeneros.Items.Insert(0, new ListItem("Seleccionar SubGenero", ""));
-            //
-            ddlSubGeneros.SelectedValue = Seleccionado.Genero.IdSubgenero.ToString();
             // Cargar autores seleccionados
             foreach (ListItem item in chkAutores.Items)
                 item.Selected = false;
@@ -153,7 +134,6 @@ namespace TPC_PROG_III
 
             Generado.Genero = new Genero();
             Generado.Genero.Id = int.Parse(ddlGeneros.SelectedValue);
-            Generado.Genero.IdSubgenero = int.Parse(ddlSubGeneros.SelectedValue);
 
             List<Autor> autoresSeleccionados = new List<Autor>();
 
@@ -218,9 +198,9 @@ namespace TPC_PROG_III
                 MostrarError("Debe seleccionar una editorial.");
                 return false;
             }
-            if (ddlGeneros.SelectedIndex == 0 || ddlSubGeneros.SelectedIndex == 0)
+            if (ddlGeneros.SelectedIndex == 0 )
             {
-                MostrarError("Debe seleccionar un género y subgénero.");
+                MostrarError("Debe seleccionar un género ");
                 return false;
             }
             if (!chkAutores.Items.Cast<ListItem>().Any(item => item.Selected))
@@ -281,33 +261,6 @@ namespace TPC_PROG_III
             dgvLibro.DataSource = Negocio.Listar(filtro);
             dgvLibro.DataBind();
         }
-
-        protected void ddlGeneros_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string valorSeleccionado = ddlGeneros.SelectedValue;
-            if (!int.TryParse(valorSeleccionado, out int idSeleccionado))
-                return;
-            GeneroNegocio Genero = new GeneroNegocio();
-            List <Genero> Lista = Genero.ListarSubGenero();
-            var filtrado = Lista.Where(l => l.Id == idSeleccionado).ToList();
-            ddlSubGeneros.DataSource = filtrado;
-            ddlSubGeneros.DataTextField = "DescripcionSubGenero";
-            ddlSubGeneros.DataValueField = "IdSubGenero";
-            ddlSubGeneros.DataBind();
-            ddlSubGeneros.Items.Insert(0, new ListItem("Seleccionar SubGenero", ""));
-        }
-
-        protected void ddlSubGeneros_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string valorSeleccionado = ddlSubGeneros.SelectedValue;
-            if (!int.TryParse(valorSeleccionado, out int idSeleccionado))
-                return;
-            GeneroNegocio Genero = new GeneroNegocio();
-            List<Genero> Lista = Genero.ListarSubGenero();
-            var filtrado = Lista.Where(l => l.IdSubgenero == idSeleccionado).ToList();
-            int id = filtrado[0].Id;
-            ddlGeneros.SelectedValue = id.ToString();
-        }
         
         protected void btnModificar_Click(object sender, EventArgs e)
         {
@@ -354,10 +307,11 @@ namespace TPC_PROG_III
                 dgvLibro.DataSource = negocio.Listar();
                 dgvLibro.DataBind();
             }
+            ScriptManager.RegisterStartupScript(this, GetType(), "cerrarModal", "var modal = bootstrap.Modal.getInstance(document.getElementById('modalLibro')); modal.hide();", true);
         }
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
-            return;
+            ScriptManager.RegisterStartupScript(this, GetType(), "cerrarModal", "var modal = bootstrap.Modal.getInstance(document.getElementById('modalLibro')); modal.hide();", true);
         }
         
         protected void btnEstado_Click(object sender, EventArgs e)
