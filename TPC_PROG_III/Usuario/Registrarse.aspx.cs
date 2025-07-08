@@ -18,6 +18,10 @@ namespace TPC_PROG_III
 
         protected void btnRegistrar_Click(object sender, EventArgs e)
         {
+            EmailService emailService = new EmailService();
+            emailService.armarCorreo("gabrielezequiel545@gmail.com", "prueba", "hola");
+            emailService.enviarEmail();
+            return;
             string nombre = txtNombre.Text.Trim();
             string email = txtEmail.Text.Trim();
             string password = txtPassword.Text.Trim();
