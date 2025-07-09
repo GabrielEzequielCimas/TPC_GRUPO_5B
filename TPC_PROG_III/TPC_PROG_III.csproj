@@ -104,7 +104,9 @@
     <Content Include="Admin\AdminVentas.aspx" />
     <Content Include="Admin\AdminLibros.aspx" />
     <Content Include="Admin\InicioAdmin.aspx" />
+    <Content Include="Cliente\CambioPass.aspx" />
     <Content Include="Cliente\ConfirmacionCompra.aspx" />
+    <Content Include="Cliente\OlvideMiPass.aspx" />
     <Content Include="Cliente\VerificarCode.aspx" />
     <Content Include="Compartido\Error.aspx" />
     <Content Include="Cliente\DetalleLibro.aspx" />
@@ -246,6 +248,13 @@
     <Compile Include="Admin\InicioAdmin.aspx.designer.cs">
       <DependentUpon>InicioAdmin.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Cliente\CambioPass.aspx.cs">
+      <DependentUpon>CambioPass.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Cliente\CambioPass.aspx.designer.cs">
+      <DependentUpon>CambioPass.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Cliente\Catalogo.aspx.designer.cs">
       <DependentUpon>Catalogo.aspx</DependentUpon>
     </Compile>
@@ -255,6 +264,13 @@
     </Compile>
     <Compile Include="Cliente\ConfirmacionCompra.aspx.designer.cs">
       <DependentUpon>ConfirmacionCompra.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Cliente\OlvideMiPass.aspx.cs">
+      <DependentUpon>OlvideMiPass.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Cliente\OlvideMiPass.aspx.designer.cs">
+      <DependentUpon>OlvideMiPass.aspx</DependentUpon>
     </Compile>
     <Compile Include="Cliente\VerificarCode.aspx.cs">
       <DependentUpon>VerificarCode.aspx</DependentUpon>

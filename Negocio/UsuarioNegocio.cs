@@ -146,5 +146,14 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        public void ActualizarPass(string mail, string pass)
+        {
+            ConexionDB datos = new ConexionDB();
+            datos.setearConsulta("update Usuarios set Pass = @pass where Id = (select A.id from Usuarios a join Clientes c on a.IdCliente = c.Id and Email = @mail)");
+            datos.setearParametro("@pass", pass);
+            datos.setearParametro("@mail", mail);
+            datos.ejecutarAccion();
+        }
     }
 }

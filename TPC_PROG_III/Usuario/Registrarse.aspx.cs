@@ -77,6 +77,7 @@ namespace TPC_PROG_III
             Session["codigoVerificacion"] = codigo;
             Session["emailPendiente"] = email;
             Session["usuarioPendiente"] = nuevo;
+            Session["tipoCodigo"] = "Alta";
 
             // Envio el correo
             emailService.ValidarCorreo(email, codigo);

@@ -17,6 +17,6 @@
         <asp:Button ID="btnLogin" runat="server" Text="Ingresar" CssClass="btn-login" OnClick="btnLogin_Click"/>
 
         <p class="registro-link">No tenés cuenta? <a href="/usuario/registrarse.aspx">Registrate</a></p>
-        <%--<p class="registro-link">Olvide mi pass <a href="">Registrate</a></p>--%>
+        <p class="reestablecer-link">Olvidaste tu contraseña? <a href="/Cliente/OlvideMiPass.aspx">Rrestablecer</a></p>
     </div>
 </asp:Content>
