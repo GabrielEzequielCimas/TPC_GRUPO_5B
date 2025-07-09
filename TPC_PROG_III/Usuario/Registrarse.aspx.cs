@@ -76,6 +76,7 @@ namespace TPC_PROG_III
             // guardar codigo y mail
             Session["codigoVerificacion"] = codigo;
             Session["emailPendiente"] = email;
+            Session["usuarioPendiente"] = nuevo;
 
             // Envio el correo
             emailService.ValidarCorreo(email, codigo);
@@ -83,7 +84,7 @@ namespace TPC_PROG_III
             // Redirigir a una página para ingresar el código
             Response.Redirect("/Cliente/VerificarCode.aspx");
             ///------------------------------
-            UsuarioNegocio negocio = new UsuarioNegocio();
+            //UsuarioNegocio negocio = new UsuarioNegocio();
             //negocio.Registrar(nuevo);
             //Response.Redirect("/usuario/IniciarSesion.aspx");
         }
