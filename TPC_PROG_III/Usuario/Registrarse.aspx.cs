@@ -15,36 +15,30 @@ namespace TPC_PROG_III
         {
 
         }
-
-        protected void btnRegistrar_Click(object sender, EventArgs e)
+        private bool ValidarMail(string nombre, string email, string password, string confirmar)
         {
-            string nombre = txtNombre.Text.Trim();
-            string email = txtEmail.Text.Trim();
-            string password = txtPassword.Text.Trim();
-            string confirmar = txtConfirmar.Text.Trim();
-
             if (string.IsNullOrEmpty(nombre) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(confirmar))
             {
                 Response.Write("<script>alert('Todos los campos son obligatorios');</script>");
-                return;
+                return false;
             }
 
             if (!email.Contains("@") || !email.Contains("."))
             {
                 Response.Write("<script>alert('El correo electrónico no es válido');</script>");
-                return;
+                return false;
             }
 
             if (password.Length < 6)
             {
                 Response.Write("<script>alert('La contraseña debe tener al menos 6 caracteres');</script>");
-                return;
+                return false;
             }
 
             if (password != confirmar)
             {
                 Response.Write("<script>alert('Las contraseñas no coinciden');</script>");
-                return;
+                return false;
             }
 
             UsuarioNegocio negocio = new UsuarioNegocio();
@@ -52,9 +46,19 @@ namespace TPC_PROG_III
             if (negocio.ExisteUsuario(email))
             {
                 Response.Write("<script>alert('Este email ya está registrado');</script>");
-                return;
+                return false;
             }
+            return true;
+        }
 
+        protected void btnRegistrar_Click(object sender, EventArgs e)
+        {
+            string nombre = txtNombre.Text.Trim();
+            string email = txtEmail.Text.Trim();
+            string password = txtPassword.Text.Trim();
+            string confirmar = txtConfirmar.Text.Trim();
+            if (!ValidarMail(nombre, email, password, confirmar)) return;
+            
             Usuario nuevo = new Usuario(email, password, TipoUsuario.CLIENTE);
 
             nuevo.Cliente = new Dominio.Cliente
@@ -65,10 +69,23 @@ namespace TPC_PROG_III
                 Email = email,
                 Direccion = null
             };
+            //-------------------------verificar con mail
+            EmailService emailService = new EmailService();
+            string codigo = emailService.GenerarCodigo();
 
-            negocio.Registrar(nuevo);
+            // guardar codigo y mail
+            Session["codigoVerificacion"] = codigo;
+            Session["emailPendiente"] = email;
 
-            Response.Redirect("/usuario/IniciarSesion.aspx");
+            // Envio el correo
+            emailService.ValidarCorreo(email, codigo);
+
+            // Redirigir a una página para ingresar el código
+            Response.Redirect("/Cliente/VerificarCode.aspx");
+            ///------------------------------
+            UsuarioNegocio negocio = new UsuarioNegocio();
+            //negocio.Registrar(nuevo);
+            //Response.Redirect("/usuario/IniciarSesion.aspx");
         }
     }
 }

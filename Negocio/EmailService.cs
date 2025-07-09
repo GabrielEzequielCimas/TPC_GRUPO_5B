@@ -12,12 +12,35 @@ namespace Negocio
     {
         private MailMessage email;
         private SmtpClient server;
-
+        public string GenerarCodigo()
+        {
+            Random rnd = new Random();
+            int codigo = rnd.Next(100000, 999999); 
+            return codigo.ToString();
+        }
         public EmailService()
         {
             server = new SmtpClient("live.smtp.mailtrap.io", 587);
             server.Credentials = new NetworkCredential("api", "99415a8b7f002d456b416b59070a2b6a");
             server.EnableSsl = true;
+        }
+        public void ValidarCorreo(string correoDestino, string codigo)
+        {
+            string asunto = "Código de verificación";
+            string cuerpo = $"<p>Tu código de verificación es: <b>{codigo}</b></p>";
+
+            MailMessage email = new MailMessage();
+            email.From = new MailAddress("noreply@libreriaonline.website");
+            email.To.Add(correoDestino);
+            email.Subject = asunto;
+            email.Body = cuerpo;
+            email.IsBodyHtml = true;
+
+            SmtpClient server = new SmtpClient("live.smtp.mailtrap.io", 587);
+            server.Credentials = new NetworkCredential("api", "99415a8b7f002d456b416b59070a2b6a");
+            server.EnableSsl = true;
+
+            server.Send(email);
         }
         public void armarCorreo(string emaildestino, string asunto, string cuerpo)
         {
@@ -26,12 +49,9 @@ namespace Negocio
             email.To.Add(emaildestino);
             email.Subject = asunto;
             email.Body = cuerpo;
-            //email.Body = "<hi1>Envio</h1>";
         }
         public void enviarEmail()
         {
-            //var from = "noreply@libreriaonline.website";
-            //var to = "gabrielezequiel545@gmail.com";
             try
             {
                 server.Send(email);
@@ -42,7 +62,5 @@ namespace Negocio
                 throw;
             }
         }
-        //noreply.libreriaonline@gmail.com
-        //7D5AWEWVLY4CNW2ZQXJ9L5XGP
     }
 }

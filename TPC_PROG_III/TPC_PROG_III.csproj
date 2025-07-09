@@ -105,6 +105,7 @@
     <Content Include="Admin\AdminLibros.aspx" />
     <Content Include="Admin\InicioAdmin.aspx" />
     <Content Include="Cliente\ConfirmacionCompra.aspx" />
+    <Content Include="Cliente\VerificarCode.aspx" />
     <Content Include="Compartido\Error.aspx" />
     <Content Include="Cliente\DetalleLibro.aspx" />
     <Content Include="Cliente\Carrito.aspx" />
@@ -254,6 +255,13 @@
     </Compile>
     <Compile Include="Cliente\ConfirmacionCompra.aspx.designer.cs">
       <DependentUpon>ConfirmacionCompra.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Cliente\VerificarCode.aspx.cs">
+      <DependentUpon>VerificarCode.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Cliente\VerificarCode.aspx.designer.cs">
+      <DependentUpon>VerificarCode.aspx</DependentUpon>
     </Compile>
     <Compile Include="Compartido\Error.aspx.cs">
       <DependentUpon>Error.aspx</DependentUpon>
