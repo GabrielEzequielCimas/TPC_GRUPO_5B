@@ -15,16 +15,14 @@ namespace Negocio
 
         public EmailService()
         {
-            server = new SmtpClient();
-            server.Credentials = new NetworkCredential("no_reply_LibreriaOnline@outlook.com", "mntfsubesrxtqfre");
+            server = new SmtpClient("live.smtp.mailtrap.io", 587);
+            server.Credentials = new NetworkCredential("api", "99415a8b7f002d456b416b59070a2b6a");
             server.EnableSsl = true;
-            server.Port = 587;
-            server.Host = "smtp.office365.com";
         }
         public void armarCorreo(string emaildestino, string asunto, string cuerpo)
         {
             email = new MailMessage();
-            email.From = new MailAddress("no_reply_LibreriaOnline@outlook.com");
+            email.From = new MailAddress("noreply@libreriaonline.website");
             email.To.Add(emaildestino);
             email.Subject = asunto;
             email.Body = cuerpo;
@@ -32,6 +30,8 @@ namespace Negocio
         }
         public void enviarEmail()
         {
+            //var from = "noreply@libreriaonline.website";
+            //var to = "gabrielezequiel545@gmail.com";
             try
             {
                 server.Send(email);
@@ -42,5 +42,7 @@ namespace Negocio
                 throw;
             }
         }
+        //noreply.libreriaonline@gmail.com
+        //7D5AWEWVLY4CNW2ZQXJ9L5XGP
     }
 }
