@@ -20,6 +20,7 @@
             <asp:ListItem Text="Tarjeta de Crédito" Value="Tarjeta" />
             <asp:ListItem Text="Transferencia Bancaria" Value="Transferencia" />
             <asp:ListItem Text="Efectivo en punto de retiro" Value="Efectivo" />
+            <%--<asp:ListItem Text="Mercado Pago" Value="Mercado Pago" />--%>
         </asp:DropDownList>
 
         <asp:CheckBox ID="chkTerminos" runat="server" Text="Acepto los Términos y Condiciones" />

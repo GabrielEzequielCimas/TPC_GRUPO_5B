@@ -1,7 +1,22 @@
 ﻿<%@ Page Title="Catalogo" Language="C#" MasterPageFile="~/Compartido/Site.Master" AutoEventWireup="true" CodeBehind="Catalogo.aspx.cs" Inherits="TPC_PROG_III.Cliente.Catalogo" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <h2 style="text-align:center;">Catálogo</h2>
+    <style>
+        .boton-fav {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            border-radius: 50%;
+            font-size: 14px;
+            width: 28px;
+            height: 28px;
+            padding: 0;
+            text-align: center;
+            line-height: 28px;
+            box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+    <h2 style="text-align: center;">Catálogo</h2>
 
     <div class="filtros" style="margin: 20px 0; display: flex; flex-wrap: wrap; gap: 15px;">
         <asp:TextBox ID="txtBusqueda" runat="server" CssClass="form-control" placeholder="Buscar por título" />
@@ -25,15 +40,25 @@
     <div class="catalogo-grid">
         <asp:Repeater ID="rptLibros" runat="server" OnItemCommand="rptLibros_ItemCommand">
             <ItemTemplate>
-                <div class="carta-libro">
+                <div class="carta-libro" style="position: relative;">
+                    <asp:Button ID="btnFavorito" runat="server"
+                        CommandName="MarcarFavorito"
+                        CommandArgument='<%# Eval("Id") %>'
+                        Text='<%# (bool)Eval("Favorito") ? "♥" : "♡" %>'
+                        CssClass="btn btn-success btn-sm boton-fav" />
+
                     <div class="imagen-placeholder">
-                        <img src='<%# Eval("Imagen") %>' alt="Portada" style="width:100%; height:180px; object-fit:cover; border-radius:6px;" />
+                        <img src='<%# Eval("Imagen") %>' alt="Portada"
+                            style="width: 100%; height: 180px; object-fit: cover; border-radius: 6px;" />
                     </div>
                     <h4 style="font-size: 16px;"><%# Eval("Titulo") %></h4>
                     <p style="color: #007bff;"><%# String.Format("${0:N2}", Eval("Precio")) %></p>
-                    <asp:Button ID="btnVer" runat="server" CommandName="VerDetalle" CommandArgument='<%# Eval("Id") %>' Text="Ver detalle" CssClass="btn-ver" />
+                    <asp:Button ID="btnVer" runat="server" CommandName="VerDetalle"
+                        CommandArgument='<%# Eval("Id") %>' Text="Comprar" CssClass="btn-ver" />
                 </div>
             </ItemTemplate>
+
+
         </asp:Repeater>
     </div>
     <asp:Literal ID="litPaginacion" runat="server" />

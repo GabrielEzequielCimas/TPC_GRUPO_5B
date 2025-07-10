@@ -34,6 +34,18 @@ namespace TPC_PROG_III.Cliente
 
             var libros = negocio.ListarPaginado(skip, cantidadPorPagina);
 
+            if (Session["Usuario"] != null)
+            {
+                FavoritoNegocio favorito = new FavoritoNegocio();
+                Usuario usuario = (Usuario)Session["Usuario"];
+                int idCliente = usuario.Cliente.Id;
+                var favoritos = favorito.ListarFavoritos(idCliente).Select(f => f.IdLibro).ToList();
+                foreach (var libro in libros)
+                {
+                    libro.Favorito = favoritos.Contains(libro.Id);
+                }
+            }
+
             Session["Libros"] = libros;
             rptLibros.DataSource = libros;
             rptLibros.DataBind();
@@ -108,6 +120,21 @@ namespace TPC_PROG_III.Cliente
 
         protected void rptLibros_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
+            if (e.CommandName == "MarcarFavorito")
+            {
+                if (Session["Usuario"] != null)
+                {
+                    UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
+                    FavoritoNegocio negocio = new FavoritoNegocio();
+                    int idLibro = Convert.ToInt32(e.CommandArgument);
+                    Usuario usuario = (Usuario)Session["Usuario"];
+                    //usuarioNegocio.ExisteUsuario
+                    string Nombre = usuario.Cliente.Nombre;
+                    int IdCliente = usuario.Cliente.Id;
+                    negocio.SetearFav(IdCliente, idLibro);
+                    cargarLibros();
+                }
+            }
             if (e.CommandName == "VerDetalle")
             {
                 int idLibro = Convert.ToInt32(e.CommandArgument);

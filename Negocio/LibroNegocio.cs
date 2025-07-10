@@ -72,6 +72,7 @@ namespace Negocio
                                         JOIN Editoriales E ON E.Id = A.IdEditorial
                                         JOIN SubGeneros F ON A.IdSubGenero = F.Id
                                         JOIN Generos G ON F.IdGenero = G.Id
+                                        where a.DeletedAt is null
                                         ORDER BY Titulo
                                         OFFSET @Skip ROWS FETCH NEXT @Take ROWS ONLY");
                 datos.setearParametro("Skip", skip);
@@ -431,7 +432,7 @@ namespace Negocio
 
             try
             {
-                var query = new StringBuilder(@"SELECT a.Id AS IdLibro, Codigo, Titulo, A.Descripcion, E.Descripcion AS Editorial, IdEditorial, UrlImagen, Paginas, Stock, Precio, F.Id AS IdSubGenero, G.Id AS IdGenero, F.Descripcion AS DescripcionSubGenero, G.Descripcion AS DescripcionGenero FROM Libros A JOIN Editoriales E ON E.Id = A.IdEditorial JOIN SubGeneros F ON A.IdSubGenero = F.Id JOIN Generos G ON F.IdGenero = G.Id WHERE 1=1");
+                var query = new StringBuilder(@"SELECT a.Id AS IdLibro, Codigo, Titulo, A.Descripcion, E.Descripcion AS Editorial, IdEditorial, UrlImagen, Paginas, Stock, Precio, F.Id AS IdSubGenero, G.Id AS IdGenero, F.Descripcion AS DescripcionSubGenero, G.Descripcion AS DescripcionGenero FROM Libros A JOIN Editoriales E ON E.Id = A.IdEditorial JOIN SubGeneros F ON A.IdSubGenero = F.Id JOIN Generos G ON F.IdGenero = G.Id WHERE 1=1 and a.DeletedAt is null");
 
                 // Dinamismo
                 if (!string.IsNullOrEmpty(titulo))

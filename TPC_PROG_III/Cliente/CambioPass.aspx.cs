@@ -37,6 +37,8 @@ namespace TPC_PROG_III.Cliente
             {
                 var mail = Session["emailPendiente"].ToString();
                 negocio.ActualizarPass(mail,txtPassword.Text);
+                Response.Write("<script>alert('Se cambio de contraseña correctamente');</script>");
+                Response.Redirect("/admin/InicioAdmin.aspx");
             }
         }
     }

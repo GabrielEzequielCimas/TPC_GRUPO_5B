@@ -1,6 +1,7 @@
 ﻿using Dominio;
 using Negocio;
 using System;
+//using MercadoPago;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -54,16 +55,35 @@ namespace TPC_PROG_III.Cliente
                 return;
             }
 
+            if (string.IsNullOrEmpty(ddlMetodoPago.SelectedValue))
+            {
+                lblMensaje.Text = "Debe seleccionar un método de pago.";
+                return;
+            }
+
             // Guardar en BD: Crea una nueva Venta y sus Detalles
             VentaNegocio negocio = new VentaNegocio();
-            bool exito = negocio.RegistrarVenta(txtNombre.Text, txtApellido.Text, txtEmail.Text, 
-                                                documento, txtDireccion.Text, 
+            bool exito = negocio.RegistrarVenta(txtNombre.Text, txtApellido.Text, txtEmail.Text,
+                                                documento, txtDireccion.Text,
                                                 ddlMetodoPago.SelectedValue, carrito.Items);
-
+            if (exito) Response.Write("<script>alert('Usuario o contraseña incorrectos');</script>");
             if (exito)
             {
-                Session["carrito"] = null;
-                Response.Redirect("ConfirmacionCompra.aspx");
+                if (ddlMetodoPago.SelectedValue == "Mercado Pago")
+                {
+                    string url = HttpContext.Current.Request.Url.AbsoluteUri;
+                    int finUrl = url.LastIndexOf("/");
+                    url = url.Remove(finUrl + 1);
+
+                    //MercadoPagoNegocio mp = new MercadoPagoNegocio(url);
+                    //string urlMP = mp.PagarMercadoPago(carrito);
+                    //Response.Redirect(urlMP);
+                }
+                else
+                {
+                    Session["carrito"] = null;
+                    Response.Redirect("ConfirmacionCompra.aspx");
+                }
             }
             else
             {

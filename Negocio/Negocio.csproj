@@ -31,7 +31,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -44,6 +48,7 @@
     <Compile Include="AutorNegocio.cs" />
     <Compile Include="ClienteNegocio.cs" />
     <Compile Include="EmailService.cs" />
+    <Compile Include="FavoritoNegocio.cs" />
     <Compile Include="GeneroNegocio.cs" />
     <Compile Include="EditorialNegocio.cs" />
     <Compile Include="ImagenNegocio.cs" />
@@ -61,6 +66,9 @@
       <Project>{a1385605-84d7-49d1-a3e6-5fea453998a8}</Project>
       <Name>Dominio</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
