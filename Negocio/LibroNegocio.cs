@@ -72,7 +72,7 @@ namespace Negocio
                                         JOIN Editoriales E ON E.Id = A.IdEditorial
                                         JOIN SubGeneros F ON A.IdSubGenero = F.Id
                                         JOIN Generos G ON F.IdGenero = G.Id
-                                        where a.DeletedAt is null
+                                        where a.DeletedAt is null and stock > 0
                                         ORDER BY Titulo
                                         OFFSET @Skip ROWS FETCH NEXT @Take ROWS ONLY");
                 datos.setearParametro("Skip", skip);
