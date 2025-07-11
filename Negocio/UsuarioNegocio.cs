@@ -91,7 +91,7 @@ namespace Negocio
                     datos.setearParametro("@localidad", nuevo.Cliente.Direccion.Localidad ?? "");
                     datos.setearParametro("@calle", nuevo.Cliente.Direccion.Calle ?? "");
                     datos.setearParametro("@numero", nuevo.Cliente.Direccion.Numero);
-                    datos.setearParametro("@piso", nuevo.Cliente.Direccion.Piso.HasValue ? (object)nuevo.Cliente.Direccion.Piso.Value : DBNull.Value);
+                    //datos.setearParametro("@piso", nuevo.Cliente.Direccion.Piso.HasValue ? (object)nuevo.Cliente.Direccion.Piso.Value : DBNull.Value);
                     datos.setearParametro("@cp", nuevo.Cliente.Direccion.CP ?? "");
 
                     idDireccion = Convert.ToInt32(datos.ejecutarScalar());

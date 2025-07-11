@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="AutorNegocio.cs" />
     <Compile Include="ClienteNegocio.cs" />
+    <Compile Include="DireccionNegocio.cs" />
     <Compile Include="EmailService.cs" />
     <Compile Include="FavoritoNegocio.cs" />
     <Compile Include="GeneroNegocio.cs" />

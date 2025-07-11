@@ -12,6 +12,39 @@ namespace TPC_PROG_III.Cliente
 {
     public partial class FinalizarCompra : Page
     {
+        public void EnviarFactura(Dominio.Cliente cliente, Dominio.Carrito carrito, string direccion, string metodoPago)
+        {
+            EmailService email = new EmailService();
+            string htmlFactura = $@"
+            <html>
+            <body style='font-family: Arial;'>
+                <h2>Factura</h2>
+                <p><strong>Cliente:</strong> {cliente.Nombre} {cliente.Apellido}</p>
+                <p><strong>Email:</strong> {cliente.Email}</p>
+                <p><strong>Documento:</strong> {cliente.Documento}</p>
+                <p><strong>Dirección:</strong> {direccion}</p>
+                <p><strong>Método de Pago:</strong> {metodoPago}</p>
+                <br />
+                <table border='1' cellpadding='5' cellspacing='0'>
+                    <tr><th>Producto</th><th>Cantidad</th><th>Precio Unitario</th><th>Subtotal</th></tr>";
+
+            foreach (ItemCarrito item in carrito.Items)
+            {
+                htmlFactura += $"<tr><td>{item.Libro.Titulo}</td><td>{item.Cantidad}</td><td>${item.Libro.Precio:N2}</td><td>${item.Precio:N2}</td></tr>";
+            }
+
+            htmlFactura += $@"
+                </table>
+                <br />
+                <h3>Total: ${carrito.Subtotal:N2}</h3>
+            </body>
+            </html>";
+
+            email.armarCorreoHtml(cliente.Email, "Factura de compra - Librería Online", htmlFactura);
+
+            //email.IsBodyHtml = true;
+            email.enviarEmail();
+        }
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -81,6 +114,8 @@ namespace TPC_PROG_III.Cliente
                 }
                 else
                 {
+                    Usuario usuario = (Usuario)Session["Usuario"];
+                    EnviarFactura(usuario.Cliente,carrito,txtDireccion.Text, ddlMetodoPago.SelectedValue);
                     Session["carrito"] = null;
                     Response.Redirect("ConfirmacionCompra.aspx");
                 }

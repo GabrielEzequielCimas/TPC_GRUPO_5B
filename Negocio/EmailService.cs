@@ -50,6 +50,15 @@ namespace Negocio
             email.Subject = asunto;
             email.Body = cuerpo;
         }
+        public void armarCorreoHtml(string emaildestino, string asunto, string cuerpo)
+        {
+            email = new MailMessage();
+            email.From = new MailAddress("noreply@libreriaonline.website");
+            email.IsBodyHtml = true;
+            email.To.Add(emaildestino);
+            email.Subject = asunto;
+            email.Body = cuerpo;
+        }
         public void enviarEmail()
         {
             try

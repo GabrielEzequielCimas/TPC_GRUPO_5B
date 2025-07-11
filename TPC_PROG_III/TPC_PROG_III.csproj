@@ -114,6 +114,7 @@
     <Content Include="Cliente\DetalleLibro.aspx" />
     <Content Include="Cliente\Carrito.aspx" />
     <Content Include="Usuario\CerrarSesion.aspx" />
+    <Content Include="Usuario\Favoritos.aspx" />
     <Content Include="Usuario\IniciarSesion.aspx" />
     <Content Include="Usuario\MisCompras.aspx" />
     <Content Include="Usuario\Registrarse.aspx" />
@@ -195,6 +196,8 @@
     <Content Include="Scripts\WebForms\WebParts.js" />
     <Content Include="Scripts\WebForms\WebUIValidation.js" />
     <Content Include="Compartido\Site.Master" />
+    <Content Include="Usuario\UpdateDatosCliente.aspx" />
+    <Content Include="Usuario\UpdateDirecciones.aspx" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config" />
     <Content Include="Bundle.config" />
@@ -316,6 +319,13 @@
     <Compile Include="Usuario\CerrarSesion.aspx.designer.cs">
       <DependentUpon>CerrarSesion.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Usuario\Favoritos.aspx.cs">
+      <DependentUpon>Favoritos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Usuario\Favoritos.aspx.designer.cs">
+      <DependentUpon>Favoritos.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Usuario\IniciarSesion.aspx.cs">
       <DependentUpon>IniciarSesion.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -374,6 +384,20 @@
     </Compile>
     <Compile Include="Compartido\Site.Mobile.Master.designer.cs">
       <DependentUpon>Site.Mobile.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario\UpdateDatosCliente.aspx.cs">
+      <DependentUpon>UpdateDatosCliente.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Usuario\UpdateDatosCliente.aspx.designer.cs">
+      <DependentUpon>UpdateDatosCliente.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario\UpdateDirecciones.aspx.cs">
+      <DependentUpon>UpdateDirecciones.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Usuario\UpdateDirecciones.aspx.designer.cs">
+      <DependentUpon>UpdateDirecciones.aspx</DependentUpon>
     </Compile>
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
