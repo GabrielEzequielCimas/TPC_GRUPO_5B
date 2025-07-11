@@ -51,6 +51,15 @@ namespace TPC_PROG_III
         protected global::System.Web.UI.WebControls.Label lblDescripcion;
 
         /// <summary>
+        /// Control lblStock.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblStock;
+
+        /// <summary>
         /// Control lblAutor.
         /// </summary>
         /// <remarks>

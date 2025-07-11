@@ -44,7 +44,6 @@ namespace TPC_PROG_III
             }
             else if (e.CommandName == "Actualizar")
             {
-                // Obtener el TextBox con la cantidad
                 TextBox txtCantidad = e.Item.FindControl("txtCantidad") as TextBox;
                 if (txtCantidad != null)
                 {
@@ -54,7 +53,14 @@ namespace TPC_PROG_III
                         var item = carrito.Items.FirstOrDefault(i => i.Libro.Id == idLibro);
                         if (item != null)
                         {
-                            item.Cantidad = nuevaCantidad;
+                            if (nuevaCantidad > item.Libro.Stock)
+                            {
+                                item.Cantidad = item.Libro.Stock;
+                            }
+                            else
+                            {
+                                item.Cantidad = nuevaCantidad;
+                            }
                         }
                     }
                 }

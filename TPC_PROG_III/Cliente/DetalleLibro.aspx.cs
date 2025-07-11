@@ -45,6 +45,7 @@ namespace TPC_PROG_III
                 lblDescripcion.Text = libro.Descripcion;
                 lblGenero.Text = libro.Genero.DescripcionGenero;
                 //lblSubGenero.Text = libro.Genero.DescripcionSubGenero;
+                lblStock.Text = "Stock: " + libro.Stock.ToString();
                 lblAutor.Text = "Autor/es: " + string.Join(", ", libro.Autores.Select(a => a.Nombre));
             }
             else
