@@ -277,7 +277,6 @@ namespace TPC_PROG_III
             ViewState["Accion"] = "Agregar";
             LimpiarCampos();
             ScriptManager.RegisterStartupScript(this, GetType(), "abrirModal", "abrirModalLibro();", true);
-
         }
 
 
@@ -304,6 +303,7 @@ namespace TPC_PROG_III
                 LibroNegocio negocio = new LibroNegocio();
                 Libro nuevo = CargarObjeto();
                 negocio.Agregar(nuevo);
+                //nuevo.Estado = "Activo";
                 dgvLibro.DataSource = negocio.Listar();
                 dgvLibro.DataBind();
             }

@@ -267,9 +267,9 @@ namespace Negocio
             {
                 datos.setearConsulta(@"
                     INSERT INTO Libros 
-                    (Codigo, Titulo, Descripcion, IdSubGenero, IdEditorial, UrlImagen, Paginas, Precio, Stock)
+                    (Codigo, Titulo, Descripcion,IdSubGenero, IdEditorial, UrlImagen, Paginas, Precio, Stock)
                     VALUES 
-                    (@Codigo, @Titulo, @Descripcion, @IdSubGenero, @IdEditorial, @UrlImagen, @Paginas, @Precio, @Stock);
+                    (@Codigo, @Titulo, @Descripcion,126, @IdEditorial, @UrlImagen, @Paginas, @Precio, @Stock);
                     SELECT SCOPE_IDENTITY();
                 ");
 
@@ -312,7 +312,6 @@ namespace Negocio
             SET Codigo = @Codigo,
                 Titulo = @Titulo,
                 Descripcion = @Descripcion,
-                IdSubGenero = @IdSubGenero,
                 IdEditorial = @IdEditorial,
                 UrlImagen = @UrlImagen,
                 Paginas = @Paginas,
